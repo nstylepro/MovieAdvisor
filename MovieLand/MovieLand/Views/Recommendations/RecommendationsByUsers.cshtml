@@ -1,0 +1,142 @@
+﻿@model IEnumerable<MovieLand.Models.Movie>
+@{
+    ViewData["Title"] = "Recommendations By Users";
+}
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />   
+</head>
+<h2>Your Recommended Games By Other Games You Ordered:</h2>
+
+
+<div class="form-actions no-color">
+    <p>
+        Price:
+        <!--search by price: populating the drop down list dynamicaly-->
+        @Html.DropDownList("priceSearch", new SelectList(ViewBag.priceCategory, "price"), "Any", new { @class = "dropdown" })
+
+        genre:
+        <!--search by genre: populating the drop down list dynamicaly-->
+        @Html.DropDownList("genreSearch", new SelectList(ViewBag.genres, "genre"), "Any", new { @class = "dropdown" })
+
+        year:
+        <!--search by company: populating the drop down list dynamicaly-->
+        @Html.DropDownList("yearSearch", new SelectList(ViewBag.year, "year"), "Any", new { @class = "dropdown" })
+
+        |
+        <a asp-action="Recommendations">Back to Full List</a>
+    </p>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.movieID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.movieName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.director)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.genre)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.movieID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.movieName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.director)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.genre)
+            </th>
+            <td>
+                <a asp-controller="Game" asp-action="Buy" asp-route-id="@item.movieID">Buy</a> |
+                <a asp-controller="Game" asp-action="Details" asp-route-id="@item.movieID">Details</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@section Scripts
+{
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        //var recgames = { Games: 'Model' };
+
+        $("select.dropdown").change(function(){
+
+            var priceOption = $('#priceSearch').find(":selected").text(); //this is the selcted price drop dwon value
+            var genreOption = $('#genreSearch').find(":selected").text(); //this is the selected genre drop down value
+            var yearOption = $('#yearSearch').find(":selected").text(); //this is the selected company dwon value
+
+            // i created a string of the recommended games ids to pass to the controller each time he searches a game in the recommendations
+            // i did this so the search will only be on recommended games without calculating recommendations anew each time the user searches
+            var recgames = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@Model) as String); // create json of recommended games passed to view
+            var recgamesIds = "";
+            $.each(recgames, function () {
+                recgamesIds = recgamesIds + "," + this.GameID.toString();
+            });
+
+            $.ajax({
+                url: "../Game/search", // use the result function which return a list of objects from query result in controller
+                type: "post", //send it through post method
+                data: {
+                    priceSearch: priceOption,
+                    genreSearch: genreOption,
+                    yearSearch: yearOption,
+                    recGamesIds: recgamesIds
+                },
+                success: function (response) {
+                    var result = '';
+                    // if the reponse is empty display an empty table (in case no games match the filter)
+                    if (response == '') {
+                        result = " "
+                        $('tbody').html(result);
+                    }
+                    // table body
+                    $.each(response, function (key, value) {
+                        result +=
+                            '<tr>' +
+                            '<td>' + value.movieID + '</td>' +
+                            '<td>' + value.movieName + '</td>' +
+                            '<td>' + value.price + '</td>' +
+                            '<td>' + value.director + '</td>' +
+                            '<td>' + value.genre + '</td>' +
+                            '<td>' +
+                            '<a href="/Game/Buy/' + value.movieID + '">Buy</a> | ' +
+                            '<a href="/Game/Details/' + value.movieID + '">Details</a>' +
+                            '</td>' +
+                            '</tr>'
+
+                        $('tbody').html(result);
+                    });
+                },
+                error: function (xhr) {
+                    alert("get reuquest error")
+                }
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,53 @@
+﻿@model MovieLand.Models.Order
+
+@{
+    ViewData["Title"] = "Delete";
+}
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />   
+</head>
+
+<h2>Delete Order</h2>
+
+<h4>Are You Sure You Want To Delete This Record?</h4>
+<div>    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerUsername)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustomerUsername)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Buyer.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Buyer.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderedMovie.movieName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderedMovie.movieName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderedMovie.price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderedMovie.price)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="OrderID" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

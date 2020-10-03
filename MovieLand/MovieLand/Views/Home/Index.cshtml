@@ -1,8 +1,42 @@
-﻿@{
+﻿@model List<dynamic>
+
+@{
     ViewData["Title"] = "Home Page";
 }
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />   
+</head>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<canvas id="myCanvas" width="1100" height="800" >
+    Your browser does not support the canvas element.
+</canvas>
+
+<script type="text/javascript">
+   
+  func()
+  function func() {
+      
+      var canvas = document.getElementById("myCanvas");
+      var ctx = canvas.getContext("2d");
+      var text = "Welcome To The Game Store";
+      var font = "80px Futura, Helvetica, sans-serif";
+
+      // save state
+      ctx.save();
+      ctx.font = font;
+
+      var offsetY = 190;
+      var offsetX = 0;
+
+      // throwing a linear-gradient in to shine up the text
+      var gradient = ctx.createLinearGradient(0, offsetY, 0, 165 + offsetY);
+      gradient.addColorStop(0.1, '#66ccff');
+      gradient.addColorStop(0.35, '#1f3d7a');
+      gradient.addColorStop(0.65, '#1f3d7a');
+      gradient.addColorStop(1.0, '#66ccff');
+      ctx.fillStyle = gradient
+      ctx.fillText(text, offsetX, offsetY + 150);
+
+  };
+</script>
+

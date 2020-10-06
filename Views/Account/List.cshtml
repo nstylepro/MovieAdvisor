@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MovieLand.ViewModels.UserViewModel>
+
+@{
+    ViewData["Title"] = "List";
+}
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />   
+</head>
+<h2>Users</h2>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => user.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => user.Role)
+                </td>
+                <td>
+
+                    @if (user.Role != "Administrator")
+                    {
+                        // ^^^^^^^ make admin is avialable only if the user is not an admin
+                        <a asp-action="MakeAdmin" asp-route-id="@user.UserName">Make Admin</a> <i> | </i>
+                    }
+
+                    @if (user.UserName != "admin")
+                    {
+                        // ^^^^^^^ cannot delete default admin to not lose control over the website
+                        <a asp-action="Delete" asp-route-id="@user.UserName">Delete</a> <i> | </i>
+                    }
+                    <a asp-action="Edit" asp-route-id="@user.UserName">Edit</a> |
+                    <a asp-action="ChangePassword" asp-route-id="@user.UserName">Change Password</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+
+}

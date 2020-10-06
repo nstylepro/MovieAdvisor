@@ -1,0 +1,49 @@
+﻿@model MovieLand.Models.Order
+
+@{
+    ViewData["Title"] = "Create Order";
+}
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />   
+</head>
+<!--notifying the user the given movie id doesnt exist in case he tried to create an order with a wrong movie id-->
+@if (this.ViewBag.Error2 != null)
+{
+    <h2>Wrong Movie ID!</h2>
+}
+
+<h2>Create Order</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CustomerUsername" class="control-label"></label>
+                <input asp-for="CustomerUsername" class="form-control" />
+                <span asp-validation-for="CustomerUsername" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MovieID" class="control-label"></label>
+                <input asp-for="MovieID" class="form-control" />
+                <span asp-validation-for="MovieID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderDate" class="control-label"></label>
+                <input asp-for="OrderDate" class="form-control" min = "2018-01-01" max = "2020-01-01" />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

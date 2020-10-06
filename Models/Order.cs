@@ -18,7 +18,7 @@ namespace MovieLand.Models
         [StringLength(15, ErrorMessage = "username cannot be longer than 15 characters.")]
         public string CustomerUsername { get; set; }       
         [Required]       
-        public int GameID { get; set; }
+        public int MovieID { get; set; }
        
         // these are added automatically after the order is created
         public virtual Movie OrderedMovie { get; set; }    

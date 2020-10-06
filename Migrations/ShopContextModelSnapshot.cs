@@ -8,8 +8,6 @@ using MovieLand.db;
 
 namespace MovieLand.Migrations
 {
-    using MovieLand.db;
-
     [DbContext(typeof(ShopContext))]
     partial class ShopContextModelSnapshot : ModelSnapshot
     {
@@ -17,7 +15,7 @@ namespace MovieLand.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -236,23 +234,30 @@ namespace MovieLand.Migrations
                 {
                     b.Property<int>("MovieID");
 
-                    b.Property<string>("MovieName")
-                        .IsRequired();
+                    b.Property<string>("Director")
+                        .IsRequired()
+                        .HasMaxLength(30);
 
                     b.Property<string>("Genre")
+                        .IsRequired();
+
+                    b.Property<string>("ImdbID")
+                        .IsRequired();
+
+                    b.Property<string>("MovieName")
                         .IsRequired();
 
                     b.Property<string>("Price")
                         .IsRequired()
                         .HasMaxLength(10);
 
-                    b.Property<string>("Director")
-                        .IsRequired()
-                        .HasMaxLength(30);
+                    b.Property<float>("Rating");
 
                     b.Property<string>("TrailerID")
                         .IsRequired()
-                        .HasMaxLength(20);
+                        .HasMaxLength(30);
+
+                    b.Property<int>("Year");
 
                     b.HasKey("MovieID");
 
@@ -273,11 +278,13 @@ namespace MovieLand.Migrations
 
                     b.Property<DateTime>("OrderDate");
 
+                    b.Property<int?>("OrderedMovieMovieID");
+
                     b.HasKey("OrderID");
 
                     b.HasIndex("CustomerUsername");
 
-                    b.HasIndex("MovieID");
+                    b.HasIndex("OrderedMovieMovieID");
 
                     b.ToTable("Orders");
                 });
@@ -336,8 +343,7 @@ namespace MovieLand.Migrations
 
                     b.HasOne("MovieLand.Models.Movie", "OrderedMovie")
                         .WithMany()
-                        .HasForeignKey("MovieID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OrderedMovieMovieID");
                 });
 #pragma warning restore 612, 618
         }

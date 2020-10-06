@@ -39,7 +39,7 @@ namespace MovieLand.Controllers
 
         // this is commented out but was the former home page with manauly tweet fetching like i explained before
         //IEnumerable<string>
-        //public async Task<IActionResult> Index(string userName = "steam_games", int count = 10, string accessToken = "AAAAAAAAAAAAAAAAAAAAAFXzAwAAAAAAMHCxpeSDG1gLNLghVe8d74hl6k4%3DRUMF4xAQLsbeBhTSRrCiQpJtxoGWeyHrDb5te2jpGskWDFW82F")
+        //public async Task<IActionResult> Index(string userName = "steam_Movies", int count = 10, string accessToken = "AAAAAAAAAAAAAAAAAAAAAFXzAwAAAAAAMHCxpeSDG1gLNLghVe8d74hl6k4%3DRUMF4xAQLsbeBhTSRrCiQpJtxoGWeyHrDb5te2jpGskWDFW82F")
         //{
             //if (accessToken == null)
             //{
@@ -100,7 +100,5 @@ namespace MovieLand.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-       
     }
 }

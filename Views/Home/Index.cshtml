@@ -18,7 +18,7 @@
       
       var canvas = document.getElementById("myCanvas");
       var ctx = canvas.getContext("2d");
-      var text = "Welcome To The Movie Store";
+      var text = "Welcome To MovieLand";
       var font = "80px Futura, Helvetica, sans-serif";
 
       // save state
@@ -29,11 +29,10 @@
       var offsetX = 0;
 
       // throwing a linear-gradient in to shine up the text
-      var gradient = ctx.createLinearGradient(0, offsetY, 0, 165 + offsetY);
-      gradient.addColorStop(0.1, '#66ccff');
-      gradient.addColorStop(0.35, '#1f3d7a');
-      gradient.addColorStop(0.65, '#1f3d7a');
-      gradient.addColorStop(1.0, '#66ccff');
+     var gradient = ctx.createLinearGradient(0, offsetY, 0, 165 + offsetY);
+      gradient.addColorStop(0.65, '#3caf92');
+     gradient.addColorStop(1.0, '#0d624d');
+      
       ctx.fillStyle = gradient
       ctx.fillText(text, offsetX, offsetY + 150);
 

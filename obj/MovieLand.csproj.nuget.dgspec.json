@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Projects\\MoviesSiteRepo\\MovieLand.csproj": {}
+    "C:\\Users\\roeyb\\Desktop\\MovieAdvisor-master\\MovieAdvisor-master\\MovieLand.csproj": {}
   },
   "projects": {
-    "C:\\Projects\\MoviesSiteRepo\\MovieLand.csproj": {
+    "C:\\Users\\roeyb\\Desktop\\MovieAdvisor-master\\MovieAdvisor-master\\MovieLand.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Projects\\MoviesSiteRepo\\MovieLand.csproj",
+        "projectUniqueName": "C:\\Users\\roeyb\\Desktop\\MovieAdvisor-master\\MovieAdvisor-master\\MovieLand.csproj",
         "projectName": "MovieLand",
-        "projectPath": "C:\\Projects\\MoviesSiteRepo\\MovieLand.csproj",
-        "packagesPath": "C:\\Users\\niroimy\\.nuget\\packages\\",
-        "outputPath": "C:\\Projects\\MoviesSiteRepo\\obj\\",
+        "projectPath": "C:\\Users\\roeyb\\Desktop\\MovieAdvisor-master\\MovieAdvisor-master\\MovieLand.csproj",
+        "packagesPath": "C:\\Users\\roeyb\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\roeyb\\Desktop\\MovieAdvisor-master\\MovieAdvisor-master\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\niroimy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\roeyb\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,8 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://msasg.pkgs.visualstudio.com/_packaging/Bing/nuget/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp2.1": {
@@ -50,6 +49,14 @@
             "GoogleMaps.LocationServices": {
               "target": "Package",
               "version": "[1.2.0.2, )"
+            },
+            "Microsoft.ApplicationInsights": {
+              "target": "Package",
+              "version": "[2.15.0, )"
+            },
+            "Microsoft.ApplicationInsights.AspNetCore": {
+              "target": "Package",
+              "version": "[2.15.0, )"
             },
             "Microsoft.AspNetCore.App": {
               "suppressParent": "All",

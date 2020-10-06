@@ -68,8 +68,8 @@
                     @Html.DisplayFor(modelItem => item.Genre)
                 </td>
                 <td>
-                    <a asp-controller="Game" asp-action="Buy" asp-route-id="@item.MovieID">Buy</a> |
-                    <a asp-controller="Game" asp-action="Details" asp-route-id="@item.MovieID">Details</a>
+                    <a asp-controller="Movie" asp-action="Buy" asp-route-id="@item.MovieID">Buy</a> |
+                    <a asp-controller="Movie" asp-action="Details" asp-route-id="@item.MovieID">Details</a>
                 </td>
             </tr>
         }
@@ -92,10 +92,10 @@
 
             // i created a string of the recommended movies ids to pass to the controller each time he searches a movie in the recommendations
             // i did this so the search will only be on recommended movies without calculating recommendations anew each time the user searches
-            var recgames = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@Model) as String); // create json of recommended movies passed to view
-            var recgamesIds = "";
-            $.each(recgames, function () {
-                recgamesIds = recgamesIds + "," + this.GameID.toString();
+            var recMovies = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@Model) as String); // create json of recommended movies passed to view
+            var recMoviesIds = "";
+            $.each(recMovies, function () {
+                recMoviesIds = recMoviesIds + "," + this.MovieID.toString();
             });
 
             $.ajax({
@@ -105,7 +105,7 @@
                     priceSearch: priceOption,
                     genreSearch: genreOption,
                     companySearch: companyOption,
-                    recGamesIds: recgamesIds
+                    recMoviesIds: recMoviesIds
                 },
                 success: function (response) {
                     var result = '';
@@ -118,14 +118,14 @@
                     $.each(response, function (key, value) {
                         result +=
                             '<tr>' +
-                            '<td>' + value.gameID + '</td>' +
-                            '<td>' + value.gameName + '</td>' +
+                            '<td>' + value.MovieID + '</td>' +
+                            '<td>' + value.MovieName + '</td>' +
                             '<td>' + value.price + '</td>' +
                             '<td>' + value.publisherCompany + '</td>' +
                             '<td>' + value.genre + '</td>' +
                             '<td>' +
-                            '<a href="/Movie/Buy/' + value.gameID + '">Buy</a> | ' +
-                            '<a href="/Movie/Details/' + value.gameID + '">Details</a>' +
+                            '<a href="/Movie/Buy/' + value.MovieID + '">Buy</a> | ' +
+                            '<a href="/Movie/Details/' + value.MovieID + '">Details</a>' +
                             '</td>' +
                             '</tr>'
 

@@ -30,7 +30,7 @@ namespace MovieLand.Controllers
 
         // GET: Orders
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Index(string customerSearch, string gameSearch, string priceSearch, DateTime? edate, DateTime? ldate)
+        public async Task<IActionResult> Index(string customerSearch, string Moviesearch, string priceSearch, DateTime? edate, DateTime? ldate)
         {
             var orders =  _context.Orders
                 .Include(o => o.OrderedMovie)
@@ -43,8 +43,8 @@ namespace MovieLand.Controllers
             ViewData["CurrentLdate"] = ldate?.ToString("yyyy-MM-dd hh:mm:ss");
 
             // query movie names
-            var games = _context.Movies.Select(g => g.MovieName).Distinct().ToList();
-            ViewBag.games = games;
+            var Movies = _context.Movies.Select(g => g.MovieName).Distinct().ToList();
+            ViewBag.Movies = Movies;
 
             // create list for price categories
             List<string> priceCategory = new List<string> { "Under 40 NIS", "Under 100 NIS", "Under 200 NIS" };
@@ -88,9 +88,9 @@ namespace MovieLand.Controllers
             }
 
             // search based on movie name
-            if (gameSearch != null)
+            if (Moviesearch != null)
             {
-                orders = orders.Where(o => o.OrderedMovie.MovieName == gameSearch);
+                orders = orders.Where(o => o.OrderedMovie.MovieName == Moviesearch);
             }
 
             return View(await orders.ToListAsync());
@@ -116,14 +116,14 @@ namespace MovieLand.Controllers
                select customer;
 
             // linq query to check if a movie id exists
-            var gameExists =
-               from game in _context.Movies
-               where game.MovieID == order.GameID
-               select game;
+            var MovieExists =
+               from Movie in _context.Movies
+               where Movie.MovieID == order.MovieID
+               select Movie;
 
 
             // if the customer is registered in the db then they can order
-            if (customerExists.Any() & gameExists.Any())
+            if (customerExists.Any() & MovieExists.Any())
             {
                 if (ModelState.IsValid)
                 {
@@ -233,12 +233,12 @@ namespace MovieLand.Controllers
             }
 
             // linq query to check if a movie id exists
-            var gameExists =
-               from game in _context.Movies
-               where game.MovieID == order.GameID
-               select game;
+            var MovieExists =
+               from Movie in _context.Movies
+               where Movie.MovieID == order.MovieID
+               select Movie;
 
-            if (gameExists.Any())
+            if (MovieExists.Any())
             {
                 if (ModelState.IsValid)
                 {
@@ -310,7 +310,7 @@ namespace MovieLand.Controllers
                                   
             // group queries and final result 
             List<GroupedCount> result = new List<GroupedCount>();
-            var groupedByGame = from o in _context.Orders
+            var groupedByMovie = from o in _context.Orders
                                 group o by o.OrderedMovie.MovieName into g
                                 select new GroupedCount { name = g.Key, count = g.Count() };
             var groupedByCustomer = from o in _context.Orders
@@ -322,7 +322,7 @@ namespace MovieLand.Controllers
                 switch (group)
                 {
                     case "Movie":
-                        result = groupedByGame.OrderByDescending(x => x.count).ToList();
+                        result = groupedByMovie.OrderByDescending(x => x.count).ToList();
                         break;
                     case "Customer":
                         result = groupedByCustomer.OrderByDescending(x => x.count).ToList();
@@ -337,10 +337,10 @@ namespace MovieLand.Controllers
         {
             public int orderID;
             public string customerUsername;
-            public int gameID;
+            public int MovieID;
             public DateTime orderDate;
             public string country;
-            public string gameName;
+            public string MovieName;
             public string company;
             public string city;
             public string street;
@@ -358,9 +358,9 @@ namespace MovieLand.Controllers
             var innerJoinCustomer = from o in _context.Orders
                                     join c in _context.Customers on o.CustomerUsername equals c.Username
                                     select new joinContent { orderID = o.OrderID, customerUsername = o.CustomerUsername, orderDate = o.OrderDate, country = c.Country, city = c.City, street = c.Street, };
-            var innerJoinGame = from o in _context.Orders
-                                join g in _context.Movies on o.GameID equals g.MovieID
-                                select new joinContent { orderID = o.OrderID, gameID = o.GameID, orderDate = o.OrderDate, gameName = g.MovieName, company = g.Director };
+            var innerJoinMovie = from o in _context.Orders
+                                join g in _context.Movies on o.MovieID equals g.MovieID
+                                select new joinContent { orderID = o.OrderID, MovieID = o.MovieID, orderDate = o.OrderDate, MovieName = g.MovieName, company = g.Director };
 
             // join
             if (join != null)
@@ -368,7 +368,7 @@ namespace MovieLand.Controllers
                 switch (join)
                 {
                     case "Movies":
-                        joinResult = innerJoinGame.ToList();
+                        joinResult = innerJoinMovie.ToList();
                         break;
                     case "Customers":
                         joinResult = innerJoinCustomer.ToList();
@@ -405,7 +405,7 @@ namespace MovieLand.Controllers
             // group queries and final result 
             //List<groupedCount> result = new List<groupedCount>();
 
-            var groupedByGame = from o in _context.Orders
+            var groupedByMovie = from o in _context.Orders
                                 group o by o.OrderedMovie.MovieName into g
                                 select new { name = g.Key, count = g.Count() };
             var groupedByCustomer = from o in _context.Orders
@@ -421,7 +421,7 @@ namespace MovieLand.Controllers
                 switch (group)
                 {
                     case "Movie":
-                    result = groupedByGame; 
+                    result = groupedByMovie; 
                     break;
                     case "Customer":
                     result = groupedByCustomer; 

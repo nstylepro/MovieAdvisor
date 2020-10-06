@@ -34,11 +34,11 @@ namespace MovieLand.Controllers
         }
 
         [Authorize]
-        public IActionResult RecommendationsByGames()
+        public IActionResult RecommendationsByMovies()
         {
             string id = User.Identity.Name;
-            // query games 
-            var games = from g in _context.Movies
+            // query Movies 
+            var Movies = from g in _context.Movies
                         select g;
 
             // create list for price categories
@@ -57,18 +57,18 @@ namespace MovieLand.Controllers
             ViewBag.companies = companies;
 
             var results = getRecommendationsByContent(id);
-            var recommendedGames = _context.Movies.Where(g => results.Contains(g.MovieID)).ToList();
+            var recommendedMovies = _context.Movies.Where(g => results.Contains(g.MovieID)).ToList();
 
-            return View(recommendedGames);
+            return View(recommendedMovies);
         }
 
-        // user based recommendations (recommends games by other users with similar data)
+        // user based recommendations (recommends Movies by other users with similar data)
         [Authorize]
         public IActionResult RecommendationsByUsers()
         {
             string id = User.Identity.Name;
-            // query games 
-            var games = from g in _context.Movies
+            // query Movies 
+            var Movies = from g in _context.Movies
                         select g;
 
             // create list for price categories
@@ -89,81 +89,81 @@ namespace MovieLand.Controllers
             // get predicted top genre for current user
             var results = getRecommendationsByUsers(id);
             // initializing an empty movie list
-            List<Movie> recommendedGames = new List<Movie>();
+            List<Movie> recommendedMovies = new List<Movie>();
             
-            //get the user's orders  ( so i dont recommend him games he already has)         
+            //get the user's orders  ( so i dont recommend him Movies he already has)         
             var orders = _context.Orders.Where(o => o.CustomerUsername == id).Include(o => o.OrderedMovie);
-            var orderedGames =
+            var orderedMovies =
                 from o in orders
                 select o.OrderedMovie;
-            var orderedGamesList = orderedGames.ToList();
+            var orderedMoviesList = orderedMovies.ToList();
 
             if (results != "Unfortunatly No Matches Were Found")
             {
-                // get all games from that genre
-                recommendedGames = _context.Movies.Where(g => (g.Genre.Contains(results)) && (!orderedGamesList.Contains(g))).ToList();
+                // get all Movies from that genre
+                recommendedMovies = _context.Movies.Where(g => (g.Genre.Contains(results)) && (!orderedMoviesList.Contains(g))).ToList();
             }
             
-            return View(recommendedGames);
+            return View(recommendedMovies);
         }
 
         // content based recomendations - Item-Based Collaborative Filtering
-        // this uses distance algorithem to recommend games to a user by a similarity score of his ordered games to other games in the store
+        // this uses distance algorithem to recommend Movies to a user by a similarity score of his ordered Movies to other Movies in the store
         [Authorize]
         public HashSet<int> getRecommendationsByContent(string id)
         {
 
             //get the customer's orders           
             var orders = _context.Orders.Where(o => o.CustomerUsername == id).Include(o => o.OrderedMovie);
-            var orderedGames =
+            var orderedMovies =
                 from o in orders
                 select o.OrderedMovie;
-            var orderedGamesList = orderedGames.ToList();
-            // all games teh customer didnt order
-            var allOtherGamesList = _context.Movies.Where(g => !orderedGamesList.Contains(g)).ToList();
+            var orderedMoviesList = orderedMovies.ToList();
+            // all Movies teh customer didnt order
+            var allOtherMoviesList = _context.Movies.Where(g => !orderedMoviesList.Contains(g)).ToList();
 
             // my function that reutrns a list of all single genres ("FPS,Loot,RPG" => ["FPS","Loot","Rpg"])
             var genreArray = getSingleGenres().ToArray();
             genreArray.Sort();
 
-            HashSet<int> GameRecommendations = new HashSet<int>();
+            HashSet<int> MovieRecommendations = new HashSet<int>();
             // this is in order to know the movie id later (the indexes are the same)
-            int[] gameIds = new int[allOtherGamesList.Count];
+            int[] MovieIds = new int[allOtherMoviesList.Count];
             // this is a jagged array of binary vectors, each vector is the geners of a movie coded into 1 if the movie is in that genre and 0 if its not
-            // this contains the vectors of all games the curretn user didnt order
-            double[][] matrix = new double[allOtherGamesList.Count][];
+            // this contains the vectors of all Movies the curretn user didnt order
+            double[][] matrix = new double[allOtherMoviesList.Count][];
             // matrix[0] = genreArray;
             int counter = 0;
             // create binary vector of genres for each movie the customer didnt order for later comparsion
-            foreach (Movie game in allOtherGamesList)
+            foreach (Movie Movie in allOtherMoviesList)
             {
                 // to know the movie id later
-                gameIds[counter] = game.MovieID;
-                // my functions that codes games genres into 1s and 0s array
-                matrix[counter] = toBinaryArray(game.Genre);
+                MovieIds[counter] = Movie.MovieID;
+                // my functions that codes Movies genres into 1s and 0s array
+                matrix[counter] = toBinaryArray(Movie.Genre);
                 counter++;
             }
 
 
-            // use distance function to calcualte distance between 2 games
+            // use distance function to calcualte distance between 2 Movies
             // i wanted to use similarity which was supposed to be more accurate but it didnt work as intended so i switched to distance
             Accord.Math.Distances.Manhattan mh = new Accord.Math.Distances.Manhattan();
             double dist = 10; // the value doesnt matter
-            foreach (Movie orderedGame in orderedGamesList)
+            foreach (Movie orderedMovie in orderedMoviesList)
             {
                 for (int i = 0; i < (matrix.Rows()); i++)
                 {
-                    // calculate the distance between each movie the customer ordered and the rest of the games 
-                    dist = mh.Distance(toBinaryArray(orderedGame.Genre), matrix[i]);
+                    // calculate the distance between each movie the customer ordered and the rest of the Movies 
+                    dist = mh.Distance(toBinaryArray(orderedMovie.Genre), matrix[i]);
                     // determines how strict the recommendation will be. the higher the number the more recommendations we get (but less accurate)
                     if (dist < 3)
                     {
-                        // if the movie he didnt order is close enough to the ones he did order then its gameid is added to the hashset that is later returned
-                        GameRecommendations.Add(gameIds[i]);
+                        // if the movie he didnt order is close enough to the ones he did order then its Movieid is added to the hashset that is later returned
+                        MovieRecommendations.Add(MovieIds[i]);
                     }
                 }
             }
-            return GameRecommendations;
+            return MovieRecommendations;
         }
 
 
@@ -304,17 +304,17 @@ namespace MovieLand.Controllers
                 {
                     continue;
                 }
-                // ordered games
-                var orderedGames =
+                // ordered Movies
+                var orderedMovies =
                 from o in orders
                 select o.OrderedMovie;
-                var orderedGamesList = orderedGames.ToList();
+                var orderedMoviesList = orderedMovies.ToList();
                 
                 // sum this specific users ordered movie genres into a vector then sort it and detrmine the top genre by this user
                 double[] sumGenreVector = new double[singleGenresArray.Length];
-                foreach (Movie game in orderedGamesList)
+                foreach (Movie Movie in orderedMoviesList)
                 {
-                    sumGenreVector = sumGenreVector.Zip(toBinaryArray(game.Genre), (x, y) => x + y).ToArray();
+                    sumGenreVector = sumGenreVector.Zip(toBinaryArray(Movie.Genre), (x, y) => x + y).ToArray();
                 }
                 // get index of max (i wrote this and didnt use .max because originaly i tried doing somthing else)
                 int counter = 0;
@@ -370,7 +370,7 @@ DataTable data = new DataTable("rec");
 PopulateGenres(data); 
 
 
-PopulateGames(data);
+PopulateMovies(data);
 
 
 Codification codification = new Codification(data);
@@ -400,20 +400,20 @@ int[] query = codification.Transform(new[,]{ {"Cards","no" },
                                        { "Adventure" ,"no"} });
 
 int result = decisionTree.Decide(query);
-string gameid = codification.Revert("Movie ID", result);
+string Movieid = codification.Revert("Movie ID", result);
 
-return gameid; */
+return Movieid; */
 
 
 
 
 /* get the customer's orders           
 var orders = _context.Orders.Where(o => o.CustomerUsername == id).Include(o => o.OrderedMovie);
-var orderedGames =
+var orderedMovies =
     from o in orders               
     select o.OrderedMovie;
-var orderedGamesList = orderedGames.ToList();
-var allOtherGames = _context.Movies.Where(g => !orderedGamesList.Contains(g));
+var orderedMoviesList = orderedMovies.ToList();
+var allOtherMovies = _context.Movies.Where(g => !orderedMoviesList.Contains(g));
 
 
 
@@ -438,28 +438,28 @@ matrix[0] = genreArray;
 
         }
 
-        public void PopulateGames(DataTable data)
+        public void PopulateMovies(DataTable data)
         {
-            var games = _context.Movies.ToList();
+            var Movies = _context.Movies.ToList();
             var singleGenres = getSingleGenres();
 
-            // loop through all the games and genres to create a table to give the decision tree algorithem (row for each movie, columns are genres)
-            foreach (Movie movie in games)
+            // loop through all the Movies and genres to create a table to give the decision tree algorithem (row for each movie, columns are genres)
+            foreach (Movie movie in Movies)
             {
-                var gameInTable = data.NewRow();
+                var MovieInTable = data.NewRow();
                 foreach (string genre in singleGenres)
                 {
                     if (movie.Genre.Contains(genre))
                     {
-                        gameInTable[genre] = "yes";
+                        MovieInTable[genre] = "yes";
                     }
                     else
                     {
-                        gameInTable[genre] = "no";
+                        MovieInTable[genre] = "no";
                     }
                 }
-                gameInTable["Movie ID"] = movie.MovieID.ToString();
-                data.Rows.Add(gameInTable);
+                MovieInTable["Movie ID"] = movie.MovieID.ToString();
+                data.Rows.Add(MovieInTable);
             }         
         }
 

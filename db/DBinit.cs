@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using MovieLand.Models;
-using MovieLand.Controllers;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+
 namespace MovieLand.db
 {
     using MovieLand.Controllers;
@@ -14,20 +10,17 @@ namespace MovieLand.db
 
     public static class DBinit
     {
-
         public static void Initialize(ShopContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             // inssures the db exists
             context.Database.EnsureCreated();
-            
-            
 
             if (!context.Movies.Any())
             {
                 // movie list
                 var movies = new List<Movie>
                     {
-                        // the high game ids are for the steam store catalog, i use steam api to get their Prices from the live catalog. the other games are not on steam.
+                        // the high Movie ids are for the steam store catalog, i use steam api to get their Prices from the live catalog. the other Movies are not on steam.
                         new Movie{MovieID=1,ImdbID="tt0068646", MovieName="The Godfather", Price="100 NIS", Director="Francis Ford Coppola", Genre="Drama", Year=1972 , TrailerID="sY1S34973zA"},
                         new Movie{MovieID=2,ImdbID="tt0071562", MovieName="The Godfather: Part II", Price="39 NIS", Director="Francis Ford Coppola", Genre="Drama", Year=1974, TrailerID="9O1Iy9od7-A"},
                         new Movie{MovieID=3,ImdbID="tt0088763", MovieName="Back to the Future", Price="1 NIS", Director="Robert Zemeckis", Genre=" Adventure", Year=1985, TrailerID="qvsgGtivCgs"},
@@ -43,19 +36,47 @@ namespace MovieLand.db
                         new Movie{MovieID=13,ImdbID="tt7131622", MovieName="Once Upon a Time... in Hollywood", Price="39 NIS", Director="Quentin Tarantino", Genre="Comedy", Year=2019, TrailerID="ELeMaP8EPAA"}
                     };
 
-                // set Prices for steam games from steam database
-                foreach (Movie movie in movies)
-                {
-                    // get Price from steam database
-                    float rating = GameController.imdbRating(movie.ImdbID);
-                    movie.Rating = rating;
-
-                }
-
-                // insert to games to db context
-                movies.ForEach(g => context.Movies.Add(g));
-                context.SaveChanges();
+                // insert to Movies to db context
+                movies.ForEach(movie => context.Movies.Add(movie));
             }
+
+            foreach (Movie movie in context.Movies.ToList())
+            {
+                //Set updated rating from imdb
+                float rating = MovieController.imdbRating(movie.ImdbID);
+                movie.Rating = rating;
+            }
+
+            context.SaveChanges();
+
+            //var movies = context.Movies.Any() ? context.Movies.ToList()
+            //             : new List<Movie>
+            //        {
+            //            // the high Movie ids are for the steam store catalog, i use steam api to get their Prices from the live catalog. the other Movies are not on steam.
+            //            new Movie{MovieID=1,ImdbID="tt0068646", MovieName="The Godfather", Price="100 NIS", Director="Francis Ford Coppola", Genre="Drama", Year=1972 , TrailerID="sY1S34973zA"},
+            //            new Movie{MovieID=2,ImdbID="tt0071562", MovieName="The Godfather: Part II", Price="39 NIS", Director="Francis Ford Coppola", Genre="Drama", Year=1974, TrailerID="9O1Iy9od7-A"},
+            //            new Movie{MovieID=3,ImdbID="tt0088763", MovieName="Back to the Future", Price="1 NIS", Director="Robert Zemeckis", Genre=" Adventure", Year=1985, TrailerID="qvsgGtivCgs"},
+            //            new Movie{MovieID=4,ImdbID="tt0120338", MovieName="Titanic", Price="80 NIS", Director="James Cameron", Genre="Drama", Year=1997, TrailerID ="jUm88F3MEbQ"},
+            //            new Movie{MovieID=5,ImdbID="tt0133093", MovieName="The Matrix", Price="80 NIS", Director="The Wachowski Brothers", Genre="Action", Year=1999, TrailerID="vKQi3bBA1y8"},
+            //            new Movie{MovieID=6,ImdbID="tt0172495", MovieName="Gladiator", Price="39 NIS", Director="Ridley Scott", Genre="Action", Year=2000, TrailerID="owK1qxDselE"},
+            //            new Movie{MovieID=7,ImdbID="tt0391198", MovieName="The Grudge", Price="200 NIS", Director="Takashi Shimizu", Genre="Horror", Year=2004, TrailerID="pJFYq7g6pEk"},
+            //            new Movie{MovieID=8,ImdbID="tt0468569", MovieName="The Dark Knight", Price="1 NIS", Director="Christopher Nolan", Genre="Action", Year=2008, TrailerID="EXeTwQWrcwY"},
+            //            new Movie{MovieID=9,ImdbID="tt1119646", MovieName="The Hangover", Price="39 NIS", Director="2K", Genre="Comedy", Year=2009, TrailerID="tcdUhdOlz9M"},
+            //            new Movie{MovieID=10,ImdbID="tt1130884", MovieName="Shutter Island", Price="80 NIS", Director="Martin Scorsese", Genre="Horror", Year=2010, TrailerID="5iaYLCiq5RM"},
+            //            new Movie{MovieID=11,ImdbID="tt0848228", MovieName="The Avengers", Price="32 NIS", Director="Joss Whedon", Genre="Action", Year=2012, TrailerID="eOrNdBpGMv8"},
+            //            new Movie{MovieID=12,ImdbID="tt0816692", MovieName="Interstellar", Price="39 NIS", Director="Christopher Nolan", Genre="Adventure", Year=2014, TrailerID="zSWdZVtXT7E"},
+            //            new Movie{MovieID=13,ImdbID="tt7131622", MovieName="Once Upon a Time... in Hollywood", Price="39 NIS", Director="Quentin Tarantino", Genre="Comedy", Year=2019, TrailerID="ELeMaP8EPAA"}
+            //        };
+
+            //foreach (Movie movie in movies)
+            //{
+            //    //Set updated rating from imdb
+            //    float rating = MovieController.imdbRating(movie.ImdbID);
+            //    movie.Rating = rating;
+            //}
+
+            //movies.ForEach(g => context.Movies.Add(g));
+            //context.SaveChanges();
 
             // initialize admin and user roles
             if (!roleManager.RoleExistsAsync("Administrator").Result)
@@ -143,20 +164,20 @@ namespace MovieLand.db
                 context.SaveChanges();
             }
 
-            // avoiding db crash if trying to add these orders if the defualt games or customer were deleted
+            // avoiding db crash if trying to add these orders if the defualt Movies or customer were deleted
             var defualtCustomer1 = context.Customers.Find("user1");
             var defualtCustomer2 = context.Customers.Find("user2");
-            var defualtGame1 = context.Movies.Find(3);
-            var defualtGame2 = context.Movies.Find(4);
-            var defualtGame3 = context.Movies.Find(8);
+            var defualtMovie1 = context.Movies.Find(3);
+            var defualtMovie2 = context.Movies.Find(4);
+            var defualtMovie3 = context.Movies.Find(8);
 
-            if (!context.Orders.Any() && defualtCustomer1!=null && defualtCustomer2 != null && defualtGame1!=null && defualtGame2!=null && defualtGame3!=null)
+            if (!context.Orders.Any() && defualtCustomer1!=null && defualtCustomer2 != null && defualtMovie1!=null && defualtMovie2!=null && defualtMovie3!=null)
             {
                     var orders = new List<Order>
                     {
-                        new Order{CustomerUsername="user1", GameID=3, OrderDate=DateTime.Parse("2020-12-1")},
-                        new Order{CustomerUsername="user1", GameID=4, OrderDate=DateTime.Parse("2020-12-1")},
-                        new Order{CustomerUsername="user2", GameID=8, OrderDate=DateTime.Parse("2020-12-1")}
+                        new Order{CustomerUsername="user1", MovieID=3, OrderDate=DateTime.Parse("2020-12-1")},
+                        new Order{CustomerUsername="user1", MovieID=4, OrderDate=DateTime.Parse("2020-12-1")},
+                        new Order{CustomerUsername="user2", MovieID=8, OrderDate=DateTime.Parse("2020-12-1")}
 
                     };
 

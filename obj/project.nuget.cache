@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "15YV+yuWMX0hrAw9ESnipUOIcZ+oievn4P0yOGFYH14f7fFIl+8k6uQWR065NBgxz3WzsiiXhhoGaAaZRmd2tg==",
+  "dgSpecHash": "RHjby2ksxlfUPXKdW2WGjwXFGCnVA3gowasAjvu1Amyp6zIXFItaNqtwd0aZigea2XG4wPD8mZHidP4Vm5SMTw==",
   "success": true,
-  "projectFilePath": "C:\\MovieAdvisor\\MovieAdvisor\\MovieLand.csproj",
+  "projectFilePath": "C:\\MovieLand\\MovieAdvisor\\MovieLand.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\danie\\.nuget\\packages\\accord\\3.8.0\\accord.3.8.0.nupkg.sha512",
     "C:\\Users\\danie\\.nuget\\packages\\accord.machinelearning\\3.8.0\\accord.machinelearning.3.8.0.nupkg.sha512",

@@ -169,11 +169,10 @@
                                     // table head
                                     head +=
                                         '<tr>' +
-                                        '<th>' + "order ID" + '</th>' +
-                                        '<th>' + "movie ID" + '</th>' +
-                                        '<th>' + "order Date"  + '</th>' +
-                                        '<th>' + "movie name" + '</th>' +
-                                        '<th>' + "company" + '</th>' +                                       
+                                        '<th>' + "Order ID" + '</th>' +
+                                        '<th>' + "Movie ID" + '</th>' +
+                                        '<th>' + "Order Date"  + '</th>' +
+                                        '<th>' + "Movie Name" + '</th>' +                                      
                                         '</tr>';
                                     $('thead').html(head);
 
@@ -182,10 +181,9 @@
                                     result +=
                                         '<tr>' +
                                         '<td>' + value.orderID + '</td>' +
-                                        '<td>' + value.MovieID + '</td>' +
+                                        '<td>' + value.movieID + '</td>' +
                                         '<td>' + value.orderDate + '</td>' +
-                                        '<td>' + value.MovieName + '</td>' +
-                                        '<td>' + value.company + '</td>' +                                       
+                                        '<td>' + value.movieName + '</td>' +                                     
                                         '</tr>';
                                     $('tbody').html(result);
                                     });

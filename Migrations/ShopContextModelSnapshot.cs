@@ -278,13 +278,11 @@ namespace MovieLand.Migrations
 
                     b.Property<DateTime>("OrderDate");
 
-                    b.Property<int?>("OrderedMovieMovieID");
-
                     b.HasKey("OrderID");
 
                     b.HasIndex("CustomerUsername");
 
-                    b.HasIndex("OrderedMovieMovieID");
+                    b.HasIndex("MovieID");
 
                     b.ToTable("Orders");
                 });
@@ -343,7 +341,8 @@ namespace MovieLand.Migrations
 
                     b.HasOne("MovieLand.Models.Movie", "OrderedMovie")
                         .WithMany()
-                        .HasForeignKey("OrderedMovieMovieID");
+                        .HasForeignKey("MovieID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

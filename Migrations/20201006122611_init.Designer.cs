@@ -10,8 +10,8 @@ using MovieLand.db;
 namespace MovieLand.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20201004133458_Main_Migration")]
-    partial class Main_Migration
+    [Migration("20201006122611_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -280,13 +280,11 @@ namespace MovieLand.Migrations
 
                     b.Property<DateTime>("OrderDate");
 
-                    b.Property<int?>("OrderedMovieMovieID");
-
                     b.HasKey("OrderID");
 
                     b.HasIndex("CustomerUsername");
 
-                    b.HasIndex("OrderedMovieMovieID");
+                    b.HasIndex("MovieID");
 
                     b.ToTable("Orders");
                 });
@@ -345,7 +343,8 @@ namespace MovieLand.Migrations
 
                     b.HasOne("MovieLand.Models.Movie", "OrderedMovie")
                         .WithMany()
-                        .HasForeignKey("OrderedMovieMovieID");
+                        .HasForeignKey("MovieID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

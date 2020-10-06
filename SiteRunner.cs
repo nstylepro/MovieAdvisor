@@ -16,10 +16,16 @@ namespace MovieLand
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                //initialize customers
+              
                 var context = services.GetRequiredService<ShopContext>();
+
+                //Clear DB in every run
+                context.Database.EnsureDeleted();
+
+                //initialize customers
                 var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+      
                 DBinit.Initialize(context, userManager, roleManager);
             }
             host.Run();

@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MovieLand.Models;
-using MovieLand.db;
 using Microsoft.AspNetCore.Authorization;
-using System.Net;
-using System.Text.RegularExpressions;
-using Accord.MachineLearning;
 using Accord.Math;
 using System.Data;
 using Accord.Statistics.Filters;
@@ -38,26 +31,32 @@ namespace MovieLand.Controllers
         {
             string id = User.Identity.Name;
             // query Movies 
-            var Movies = from g in _context.Movies
-                        select g;
+            var Movies = from movie in _context.Movies
+                         select movie;
 
             // create list for price categories
             List<string> priceCategory = new List<string> { "Under 40 NIS", "Under 100 NIS", "Under 200 NIS" };
             ViewBag.priceCategory = priceCategory;
 
             // query genres
-            var genres = _context.Movies.Select(g => g.Genre).Distinct().ToList();
+            var genres = _context.Movies.Select(movie => movie.Genre).Distinct().ToList();
 
             // get single genres for the search options
             HashSet<string> singleGenres = getSingleGenres();
             ViewBag.genres = singleGenres;
 
+            List<string> yearCategory = new List<string> { "1990's and Earlier", "2000's", "2010's" };
+            ViewBag.yearCategory = yearCategory;
+
+            List<string> ratings = new List<string> { "7+", "8+", "9+" };
+            ViewBag.ratings = ratings;
+
             // query companies
-            var companies = _context.Movies.Select(g => g.Director).Distinct().ToList();
-            ViewBag.companies = companies;
+            var directors = _context.Movies.Select(movie => movie.Director).Distinct().ToList();
+            ViewBag.directors = directors;
 
             var results = getRecommendationsByContent(id);
-            var recommendedMovies = _context.Movies.Where(g => results.Contains(g.MovieID)).ToList();
+            var recommendedMovies = _context.Movies.Where(movie => results.Contains(movie.MovieID)).ToList();
 
             return View(recommendedMovies);
         }
@@ -68,23 +67,29 @@ namespace MovieLand.Controllers
         {
             string id = User.Identity.Name;
             // query Movies 
-            var Movies = from g in _context.Movies
-                        select g;
+            var Movies = from movie in _context.Movies
+                         select movie;
 
             // create list for price categories
             List<string> priceCategory = new List<string> { "Under 40 NIS", "Under 100 NIS", "Under 200 NIS" };
             ViewBag.priceCategory = priceCategory;
 
             // query genres
-            var genres = _context.Movies.Select(g => g.Genre).Distinct().ToList();
+            var genres = _context.Movies.Select(movie => movie.Genre).Distinct().ToList();
 
             // get single genres for the search options
             HashSet<string> singleGenres = getSingleGenres();
             ViewBag.genres = singleGenres;
 
+            List<string> yearCategory = new List<string> { "1990's and Earlier", "2000's", "2010's" };
+            ViewBag.yearCategory = yearCategory;
+
+            List<string> ratings = new List<string> { "7+", "8+", "9+" };
+            ViewBag.ratings = ratings;
+
             // query companies
-            var companies = _context.Movies.Select(g => g.Director).Distinct().ToList();
-            ViewBag.companies = companies;
+            var directors = _context.Movies.Select(movie => movie.Director).Distinct().ToList();
+            ViewBag.directors = directors;
 
             // get predicted top genre for current user
             var results = getRecommendationsByUsers(id);
@@ -92,16 +97,16 @@ namespace MovieLand.Controllers
             List<Movie> recommendedMovies = new List<Movie>();
             
             //get the user's orders  ( so i dont recommend him Movies he already has)         
-            var orders = _context.Orders.Where(o => o.CustomerUsername == id).Include(o => o.OrderedMovie);
+            var orders = _context.Orders.Where(order => order.CustomerUsername == id).Include(order => order.OrderedMovie);
             var orderedMovies =
-                from o in orders
-                select o.OrderedMovie;
+                from oreder in orders
+                select oreder.OrderedMovie;
             var orderedMoviesList = orderedMovies.ToList();
 
             if (results != "Unfortunatly No Matches Were Found")
             {
                 // get all Movies from that genre
-                recommendedMovies = _context.Movies.Where(g => (g.Genre.Contains(results)) && (!orderedMoviesList.Contains(g))).ToList();
+                recommendedMovies = _context.Movies.Where(movie => (movie.Genre.Contains(results)) && (!orderedMoviesList.Contains(movie))).ToList();
             }
             
             return View(recommendedMovies);
@@ -114,13 +119,13 @@ namespace MovieLand.Controllers
         {
 
             //get the customer's orders           
-            var orders = _context.Orders.Where(o => o.CustomerUsername == id).Include(o => o.OrderedMovie);
+            var orders = _context.Orders.Where(order => order.CustomerUsername == id).Include(order => order.OrderedMovie);
             var orderedMovies =
                 from o in orders
                 select o.OrderedMovie;
             var orderedMoviesList = orderedMovies.ToList();
             // all Movies teh customer didnt order
-            var allOtherMoviesList = _context.Movies.Where(g => !orderedMoviesList.Contains(g)).ToList();
+            var allOtherMoviesList = _context.Movies.Where(movie => !orderedMoviesList.Contains(movie)).ToList();
 
             // my function that reutrns a list of all single genres ("FPS,Loot,RPG" => ["FPS","Loot","Rpg"])
             var genreArray = getSingleGenres().ToArray();

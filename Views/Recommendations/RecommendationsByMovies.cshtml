@@ -18,10 +18,16 @@
         <!--search by genre: populating the drop down list dynamicaly-->
         @Html.DropDownList("genreSearch", new SelectList(ViewBag.genres, "Genre"), "Any", new { @class = "dropdown" })
 
-        Company:
+        Director:
         <!--search by company: populating the drop down list dynamicaly-->
-        @Html.DropDownList("companySearch", new SelectList(ViewBag.companies, "Director"), "Any", new { @class = "dropdown" })
+        @Html.DropDownList("directorSearch", new SelectList(ViewBag.directors, "Director"), "Any", new { @class = "dropdown" })
 
+        Year:
+        <!--search by year: populating the drop down list dynamicaly-->
+        @Html.DropDownList("yearSearch", new SelectList(ViewBag.yearCategory, "Year"), "Any", new { @class = "dropdown" })
+
+        IMDB Rating:
+        @Html.DropDownList("ratingSearch", new SelectList(ViewBag.ratings, "IMDB Rating"), "Any", new { @class = "dropdown" })
         |
         <a asp-action="Recommendations">Back to Full List</a>
     </p>
@@ -88,7 +94,9 @@
 
             var priceOption = $('#priceSearch').find(":selected").text(); //this is the selcted price drop dwon value
             var genreOption = $('#genreSearch').find(":selected").text(); //this is the selected genre drop down value
-            var companyOption = $('#companySearch').find(":selected").text(); //this is the selected company dwon value
+            var directorOption = $('#directorSearch').find(":selected").text(); //this is the selected company dwon value
+            var yearOption = $('#yearSearch').find(":selected").text(); //this is the selected company dwon value
+            var ratingOption = $('#ratingSearch').find(":selected").text(); //this is the selected company dwon value
 
             // i created a string of the recommended movies ids to pass to the controller each time he searches a movie in the recommendations 
             // i did this so the search will only be on recommended movies without calculating recommendations anew each time the user searches 
@@ -104,7 +112,9 @@
                 data: {
                     priceSearch: priceOption,
                     genreSearch: genreOption,
-                    companySearch: companyOption,
+                    directorSearch: directorOption,
+                    yearSearch: yearOption,
+                    ratingSearch: ratingOption,
                     recMoviesIds: recMoviesIds
                 },
                 success: function (response) {
@@ -118,14 +128,16 @@
                     $.each(response, function (key, value) {
                         result +=
                             '<tr>' +
-                            '<td>' + value.MovieID + '</td>' +
-                            '<td>' + value.MovieName + '</td>' +
+                            '<td>' + value.movieID + '</td>' +
+                            '<td>' + value.movieName + '</td>' +
                             '<td>' + value.price + '</td>' +
-                            '<td>' + value.publisherCompany + '</td>' +
+                            '<td>' + value.director + '</td>' +
                             '<td>' + value.genre + '</td>' +
+                            '<td>' + value.year + '</td>' +
+                            '<td>' + value.rating + '</td>' +
                             '<td>' +
-                            '<a href="/Movie/Buy/' + value.MovieID + '">Buy</a> | ' +
-                            '<a href="/Movie/Details/' + value.MovieID + '">Details</a>' +                                           
+                            '<a href="/Movie/Buy/' + value.movieID + '">Buy</a> | ' +
+                            '<a href="/Movie/Details/' + value.movieID + '">Details</a>' +                                           
                             '</td>' +
                             '</tr>'
 

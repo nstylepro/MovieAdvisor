@@ -81,8 +81,6 @@ namespace MovieLand
             app.UseStaticFiles();
             app.UseAuthentication();          
             app.UseCookiePolicy();
-            app.UseApplicationInsightsRequestTelemetry();
-            app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseMvc(routes =>
             {

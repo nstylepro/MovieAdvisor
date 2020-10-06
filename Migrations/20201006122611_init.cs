@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MovieLand.Migrations
 {
-    public partial class Main_Migration : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -212,7 +212,6 @@ namespace MovieLand.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CustomerUsername = table.Column<string>(maxLength: 15, nullable: false),
                     MovieID = table.Column<int>(nullable: false),
-                    OrderedMovieMovieID = table.Column<int>(nullable: true),
                     OrderDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -225,11 +224,11 @@ namespace MovieLand.Migrations
                         principalColumn: "Username",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Orders_Movies_OrderedMovieMovieID",
-                        column: x => x.OrderedMovieMovieID,
+                        name: "FK_Orders_Movies_MovieID",
+                        column: x => x.MovieID,
                         principalTable: "Movies",
                         principalColumn: "MovieID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -277,9 +276,9 @@ namespace MovieLand.Migrations
                 column: "CustomerUsername");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_OrderedMovieMovieID",
+                name: "IX_Orders_MovieID",
                 table: "Orders",
-                column: "OrderedMovieMovieID");
+                column: "MovieID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

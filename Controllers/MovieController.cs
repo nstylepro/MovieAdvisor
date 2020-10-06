@@ -26,16 +26,16 @@ namespace MovieLand.Controllers
         }
          
         // results for search by price
-        public List<Movie> search(string priceSearch, string genreSearch, string companySearch, string recMoviesIds =null)
+        public List<Movie> search(string priceSearch, string genreSearch, string directorSearch, string yearSearch, string ratingSearch, string recMoviesIds =null)
         {
             // all Movies
-            var Movies = from g in _context.Movies
-                        select g;
+            var movies = from movie in _context.Movies
+                        select movie;
             // this parameter is used as a string of movie ids passed only from the recomendations view,
             // this is used to avoid calculating recommended Movies each time the user searches Movies in his recommendations view
             if (recMoviesIds != null)
             {
-                Movies = _context.Movies.Where(g => recMoviesIds.Contains(g.MovieID.ToString()));
+                movies = _context.Movies.Where(movie => recMoviesIds.Contains(movie.MovieID.ToString()));
             }
 
             // search based on price
@@ -46,33 +46,69 @@ namespace MovieLand.Controllers
                     case "Any":
                         break;
                     case "Under 40 NIS":
-                        Movies = Movies.Where(g => Convert.ToInt32((g.Price.Substring(0, g.Price.Length - 4))) < 40);
+                        movies = movies.Where(movie => Convert.ToInt32((movie.Price.Substring(0, movie.Price.Length - 4))) < 40);
                         break;
                     case "Under 100 NIS":
-                        Movies = Movies.Where(g => Convert.ToInt32((g.Price.Substring(0, g.Price.Length - 4))) < 100);
+                        movies = movies.Where(movie => Convert.ToInt32((movie.Price.Substring(0, movie.Price.Length - 4))) < 100);
                         break;
                     case "Under 200 NIS":
-                        Movies = Movies.Where(g => Convert.ToInt32((g.Price.Substring(0, g.Price.Length - 4))) < 200);
+                        movies = movies.Where(movie => Convert.ToInt32((movie.Price.Substring(0, movie.Price.Length - 4))) < 200);
                         break;
                 }
+            }
 
+            // search based on year
+            if (yearSearch != null)
+            {
+                switch (yearSearch)
+                {
+                    case "Any":
+                        break;
+                    case "1990's and Earlier":
+                        movies = movies.Where(movie => movie.Year < 2000);
+                        break;
+                    case "2000's":
+                        movies = movies.Where(movie => movie.Year >= 2000 && movie.Year < 2010);
+                        break;
+                    case "2010's":
+                        movies = movies.Where(movie => movie.Year >= 2010);
+                        break;
+                }
+            }
+
+            // search based on price
+            if (ratingSearch != null)
+            {
+                switch (ratingSearch)
+                {
+                    case "Any":
+                        break;
+                    case "7+":
+                        movies = movies.Where(movie => movie.Rating >= 7);
+                        break;
+                    case "8+":
+                        movies = movies.Where(movie => movie.Rating >= 8);
+                        break;
+                    case "9+":
+                        movies = movies.Where(movie => movie.Rating >= 9);
+                        break;
+                }
             }
 
             // search based on genre
             if (genreSearch != null && genreSearch != "Any")
             {
-                Movies = Movies.Where(g => g.Genre.Contains(genreSearch));
+                movies = movies.Where(movie => movie.Genre.Contains(genreSearch));
             }
 
 
             // search based on company
-            if (companySearch != null && companySearch != "Any")
+            if (directorSearch != null && directorSearch != "Any")
             {
-                Movies = Movies.Where(g => g.Director == companySearch);
+                movies = movies.Where(movie => movie.Director == directorSearch);
             }
 
-
-            return Movies.ToList();
+            return movies.ToList();
         }
 
         
@@ -82,15 +118,21 @@ namespace MovieLand.Controllers
             //ViewData["CurrentFilter"] = priceSearch;
 
             // query Movies 
-            var Movies = from g in _context.Movies
-                           select g;
+            var Movies = from movie in _context.Movies
+                           select movie;
 
             // create list for price categories
             List<string> priceCategory = new List<string> { "Under 40 NIS", "Under 100 NIS", "Under 200 NIS" };
             ViewBag.priceCategory = priceCategory;
 
+            List<string> yearCategory = new List<string> { "1990's and Earlier", "2000's", "2010's" };
+            ViewBag.yearCategory = yearCategory;
+
+            List<string> ratings = new List<string> { "7+", "8+", "9+" };
+            ViewBag.ratings = ratings;
+
             // query genres
-            var genres =  _context.Movies.Select(g => g.Genre).Distinct().ToList();
+            var genres =  _context.Movies.Select(movie => movie.Genre).Distinct().ToList();
 
             // get single genres for the search options
             HashSet<string> singleGenres = new HashSet<string>();
@@ -105,8 +147,8 @@ namespace MovieLand.Controllers
             ViewBag.genres = singleGenres;
 
             // query companies
-            var companies = _context.Movies.Select(g => g.Director).Distinct().ToList();
-            ViewBag.companies = companies;
+            var directors = _context.Movies.Select(movie => movie.Director).Distinct().ToList();
+            ViewBag.directors = directors;
  
             return View(await Movies.ToListAsync());
         }
@@ -120,7 +162,7 @@ namespace MovieLand.Controllers
             }
 
             var Movie = await _context.Movies
-                .FirstOrDefaultAsync(g => g.MovieID == id);
+                .FirstOrDefaultAsync(movie => movie.MovieID == id);
             if (Movie == null)
             {
                 return NotFound();
@@ -166,7 +208,6 @@ namespace MovieLand.Controllers
                 ViewBag.Error3 = "Movie Already Exists";
                 return View();
             }
-
         }
 
 
@@ -180,7 +221,7 @@ namespace MovieLand.Controllers
             }
 
             var Movie = await _context.Movies
-                .FirstOrDefaultAsync(g => g.MovieID == id);
+                .FirstOrDefaultAsync(movie => movie.MovieID == id);
             if (Movie == null)
             {
                 return NotFound();
@@ -195,12 +236,10 @@ namespace MovieLand.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-
-
-            var Movie = await _context.Movies.FirstOrDefaultAsync(g => g.MovieID == id);
+            var Movie = await _context.Movies.FirstOrDefaultAsync(movie => movie.MovieID == id);
 
             // delete all this specific movie's orders (order is a weak entity and cannot exist without a valid movie id)
-            _context.Orders.RemoveRange(_context.Orders.Where(o => o.MovieID == id));
+            _context.Orders.RemoveRange(_context.Orders.Where(order => order.MovieID == id));
             // _context.SaveChangesAsync();
 
             // delete the customer
@@ -232,9 +271,8 @@ namespace MovieLand.Controllers
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MovieID,MovieName,Price,Director,Genre,TrailerID")] Movie movie)
-        {
-
+        public async Task<IActionResult> Edit(int id, [Bind("MovieID,MovieName,Price,Director,Genre,TrailerID,Year,ImdbID")] Movie movie)
+        { 
             
             if (id != movie.MovieID)
             {
@@ -269,7 +307,7 @@ namespace MovieLand.Controllers
         }
         private bool MovieExists(int id)
         {
-            return _context.Movies.Any(g => g.MovieID == id);
+            return _context.Movies.Any(movie => movie.MovieID == id);
         }
 
 
@@ -332,9 +370,7 @@ namespace MovieLand.Controllers
                 }
 
             }
-
             return RedirectToAction(nameof(Index));
-            
         }
 
         // this handles the request and response to and from the imdb (massive online Movie store) databse by Movie id (it has to be the Movie id on the imdb database)

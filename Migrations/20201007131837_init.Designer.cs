@@ -10,7 +10,7 @@ using MovieLand.db;
 namespace MovieLand.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20201006122611_init")]
+    [Migration("20201007131837_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -244,7 +244,8 @@ namespace MovieLand.Migrations
                         .IsRequired();
 
                     b.Property<string>("ImdbID")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(9);
 
                     b.Property<string>("MovieName")
                         .IsRequired();

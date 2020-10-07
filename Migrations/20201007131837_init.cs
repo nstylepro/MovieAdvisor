@@ -84,7 +84,7 @@ namespace MovieLand.Migrations
                 columns: table => new
                 {
                     MovieID = table.Column<int>(nullable: false),
-                    ImdbID = table.Column<string>(nullable: false),
+                    ImdbID = table.Column<string>(maxLength: 9, nullable: false),
                     MovieName = table.Column<string>(nullable: false),
                     Year = table.Column<int>(nullable: false),
                     Price = table.Column<string>(maxLength: 10, nullable: false),

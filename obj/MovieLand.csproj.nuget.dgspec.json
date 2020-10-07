@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\MovieAdvisor\\MovieAdvisor\\MovieLand.csproj": {}
+    "C:\\MovieLand\\MovieAdvisor\\MovieLand.csproj": {}
   },
   "projects": {
-    "C:\\MovieAdvisor\\MovieAdvisor\\MovieLand.csproj": {
+    "C:\\MovieLand\\MovieAdvisor\\MovieLand.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\MovieAdvisor\\MovieAdvisor\\MovieLand.csproj",
+        "projectUniqueName": "C:\\MovieLand\\MovieAdvisor\\MovieLand.csproj",
         "projectName": "MovieLand",
-        "projectPath": "C:\\MovieAdvisor\\MovieAdvisor\\MovieLand.csproj",
+        "projectPath": "C:\\MovieLand\\MovieAdvisor\\MovieLand.csproj",
         "packagesPath": "C:\\Users\\danie\\.nuget\\packages\\",
-        "outputPath": "C:\\MovieAdvisor\\MovieAdvisor\\obj\\",
+        "outputPath": "C:\\MovieLand\\MovieAdvisor\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

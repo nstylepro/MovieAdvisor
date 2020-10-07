@@ -242,7 +242,8 @@ namespace MovieLand.Migrations
                         .IsRequired();
 
                     b.Property<string>("ImdbID")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(9);
 
                     b.Property<string>("MovieName")
                         .IsRequired();

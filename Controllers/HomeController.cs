@@ -39,37 +39,38 @@ namespace MovieLand.Controllers
 
         // this is commented out but was the former home page with manauly tweet fetching like i explained before
         //IEnumerable<string>
-        //public async Task<IActionResult> Index(string userName = "steam_Movies", int count = 10, string accessToken = "AAAAAAAAAAAAAAAAAAAAAFXzAwAAAAAAMHCxpeSDG1gLNLghVe8d74hl6k4%3DRUMF4xAQLsbeBhTSRrCiQpJtxoGWeyHrDb5te2jpGskWDFW82F")
-        //{
-            //if (accessToken == null)
-            //{
-                //accessToken = await GetAccessToken();
-            //}
+        public async Task<IActionResult> Index(string userName = "steam_Movies", int count = 10, string accessToken = "AAAAAAAAAAAAAAAAAAAAAFXzAwAAAAAAMHCxpeSDG1gLNLghVe8d74hl6k4%3DRUMF4xAQLsbeBhTSRrCiQpJtxoGWeyHrDb5te2jpGskWDFW82F")
+        {
+            if (accessToken == null)
+            {
+                accessToken = await GetAccessToken();
+            }
 
-            //var requestUserTimeline = new HttpRequestMessage(HttpMethod.Get,
-                //string.Format("https://api.twitter.com/1.1/statuses/user_timeline.json?count={0}&screen_name={1}&trim_user=1&exclude_replies=1", count, userName));
+            var requestUserTimeline = new HttpRequestMessage(HttpMethod.Get,
+                string.Format("https://api.twitter.com/1.1/statuses/user_timeline.json?count={0}&screen_name={1}&trim_user=1&exclude_replies=1", count, userName));
 
-            //requestUserTimeline.Headers.Add("Authorization", "Bearer " + accessToken);
-            //var httpClient = new HttpClient();
-            //HttpResponseMessage responseUserTimeLine = await httpClient.SendAsync(requestUserTimeline);
-            //var serializer = new JavaScriptSerializer();
-            //dynamic json = JsonConvert.DeserializeObject<object>(await responseUserTimeLine.Content.ReadAsStringAsync());
-            //var enumerableTweets = (json as IEnumerable<dynamic>);
+            requestUserTimeline.Headers.Add("Authorization", "Bearer " + accessToken);
+            var httpClient = new HttpClient();
+            HttpResponseMessage responseUserTimeLine = await httpClient.SendAsync(requestUserTimeline);
+            dynamic json = JsonConvert.DeserializeObject<object>(await responseUserTimeLine.Content.ReadAsStringAsync());
+            var enumerableTweets = (json as IEnumerable<dynamic>);
 
-            //if (enumerableTweets == null)
-            //{
-                //return View();
-            //}
-            //var tweets = enumerableTweets.ToList();//Select(t => (string)(t["text"].ToString()));
-            //return View(tweets);
-        //}
+            if (enumerableTweets == null)
+            {
+                return View();
+            }
+            var tweets = enumerableTweets.ToList();//Select(t => (string)(t["text"].ToString()));
+            return View(tweets);
+        }
 
+        /*
         public IActionResult Index()
         {
 
             //var tweets = GetTweets();
             return View();
         }
+        */
         public IActionResult Sales()
         {
 

@@ -72,7 +72,7 @@ namespace MovieLand.db
                 admin.UserName = "admin";
                 admin.Email = "admin@gmail.com";
 
-                IdentityResult result = userManager.CreateAsync(admin, "Aa123456").Result;
+                IdentityResult result = userManager.CreateAsync(admin, "10082020").Result;
 
                 if (result.Succeeded)
                 {
@@ -85,7 +85,7 @@ namespace MovieLand.db
                 IdentityUser user1 = new IdentityUser();
                 user1.UserName = "user1";
                 user1.Email = "user1@gmail.com";                
-                IdentityResult result1 = userManager.CreateAsync(user1, "Aa123456").Result;
+                IdentityResult result1 = userManager.CreateAsync(user1, "10082020").Result;
                 if (result1.Succeeded)
                 {
                     userManager.AddToRoleAsync(user1, "NormalUser").Wait();
@@ -94,7 +94,7 @@ namespace MovieLand.db
                 IdentityUser user2 = new IdentityUser();
                 user2.UserName = "user2";
                 user2.Email = "user2@gmail.com";
-                IdentityResult result2 = userManager.CreateAsync(user2, "Aa123456").Result;
+                IdentityResult result2 = userManager.CreateAsync(user2, "10082020").Result;
                 if (result2.Succeeded)
                 {
                     userManager.AddToRoleAsync(user2, "NormalUser").Wait();
@@ -103,7 +103,7 @@ namespace MovieLand.db
                 IdentityUser user3 = new IdentityUser();
                 user3.UserName = "user3";
                 user3.Email = "user3@gmail.com";
-                IdentityResult result3 = userManager.CreateAsync(user3, "Aa123456").Result;
+                IdentityResult result3 = userManager.CreateAsync(user3, "10082020").Result;
                 if (result3.Succeeded)
                 {
                     userManager.AddToRoleAsync(user3, "NormalUser").Wait();
@@ -112,7 +112,7 @@ namespace MovieLand.db
                 IdentityUser user4 = new IdentityUser();
                 user4.UserName = "user4";
                 user4.Email = "user4@gmail.com";
-                IdentityResult result4 = userManager.CreateAsync(user4, "Aa123456").Result;
+                IdentityResult result4 = userManager.CreateAsync(user4, "10082020").Result;
                 if (result4.Succeeded)
                 {
                     userManager.AddToRoleAsync(user4, "NormalUser").Wait();
@@ -124,10 +124,10 @@ namespace MovieLand.db
                 // customer list
                 var customers = new List<Customer>
                 {
-                    new Customer{Username="user1", FirstName="moshe", LastName="benzvi", Country="USA", City="New York", Street="Brooklyn Bridge", Age=16, Gender = Gender.Male},
-                    new Customer{Username="user2", FirstName="tal", LastName="chohen", Country="England", City="London", Street="Oxford 3", Age=53, Gender = Gender.Female},
-                    new Customer{Username="user3", FirstName="bobo", LastName="cami", Country="England", City="London", Street="Oxford 10", Age=35, Gender = Gender.Male},
-                    new Customer{Username="user4", FirstName="joe", LastName="smith", Country="Israel", City="Ramat Gan", Street="Yasmin 4", Age=13, Gender = Gender.Male}
+                    new Customer{Username="user1", FirstName="Nimrod", LastName="Nstyle", Country="Russia", City="Moscow", Street="Tverskaya 1", Age=26, Gender = Gender.Male},
+                    new Customer{Username="user2", FirstName="Avinoam", LastName="Nini", Country="Israel", City="Tel Aviv", Street="rothschild 33", Age=33, Gender = Gender.Female},
+                    new Customer{Username="user3", FirstName="Shushan", LastName="Cohen", Country="England", City="London", Street="Oxford 10", Age=65, Gender = Gender.Male},
+                    new Customer{Username="user4", FirstName="MTAFC", LastName="Goldhar", Country="Israel", City="Ramat Efal", Street="HaYasmin 1", Age=17, Gender = Gender.Male}
 
                 };
 
@@ -147,9 +147,9 @@ namespace MovieLand.db
             {
                     var orders = new List<Order>
                     {
-                        new Order{CustomerUsername="user1", MovieID=3, OrderDate=DateTime.Parse("2020-12-1")},
-                        new Order{CustomerUsername="user1", MovieID=4, OrderDate=DateTime.Parse("2020-12-1")},
-                        new Order{CustomerUsername="user2", MovieID=8, OrderDate=DateTime.Parse("2020-12-1")}
+                        new Order{CustomerUsername="user1", MovieID=3, OrderDate=DateTime.Parse("2020-12-11")},
+                        new Order{CustomerUsername="user1", MovieID=7, OrderDate=DateTime.Parse("2020-01-01")},
+                        new Order{CustomerUsername="user2", MovieID=5, OrderDate=DateTime.Parse("2020-08-08")}
 
                     };
 

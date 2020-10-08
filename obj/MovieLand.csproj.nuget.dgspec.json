@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\roeyb\\Desktop\\College\\Apps\\MovieAdvisor\\MovieLand.csproj": {}
+    "C:\\Projects\\MovieAdvisor\\MovieLand.csproj": {}
   },
   "projects": {
-    "C:\\Users\\roeyb\\Desktop\\College\\Apps\\MovieAdvisor\\MovieLand.csproj": {
+    "C:\\Projects\\MovieAdvisor\\MovieLand.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\roeyb\\Desktop\\College\\Apps\\MovieAdvisor\\MovieLand.csproj",
+        "projectUniqueName": "C:\\Projects\\MovieAdvisor\\MovieLand.csproj",
         "projectName": "MovieLand",
-        "projectPath": "C:\\Users\\roeyb\\Desktop\\College\\Apps\\MovieAdvisor\\MovieLand.csproj",
-        "packagesPath": "C:\\Users\\roeyb\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\roeyb\\Desktop\\College\\Apps\\MovieAdvisor\\obj\\",
+        "projectPath": "C:\\Projects\\MovieAdvisor\\MovieLand.csproj",
+        "packagesPath": "C:\\Users\\niroimy\\.nuget\\packages\\",
+        "outputPath": "C:\\Projects\\MovieAdvisor\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\roeyb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\niroimy\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +22,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://msasg.pkgs.visualstudio.com/_packaging/Bing/nuget/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp2.1": {

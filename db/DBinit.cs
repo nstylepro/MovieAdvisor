@@ -72,7 +72,7 @@ namespace MovieLand.db
                 admin.UserName = "admin";
                 admin.Email = "admin@gmail.com";
 
-                IdentityResult result = userManager.CreateAsync(admin, "10082020").Result;
+                IdentityResult result = userManager.CreateAsync(admin, "Aa10082020").Result;
 
                 if (result.Succeeded)
                 {
@@ -85,7 +85,7 @@ namespace MovieLand.db
                 IdentityUser user1 = new IdentityUser();
                 user1.UserName = "user1";
                 user1.Email = "user1@gmail.com";                
-                IdentityResult result1 = userManager.CreateAsync(user1, "10082020").Result;
+                IdentityResult result1 = userManager.CreateAsync(user1, "Aa10082020").Result;
                 if (result1.Succeeded)
                 {
                     userManager.AddToRoleAsync(user1, "NormalUser").Wait();
@@ -94,7 +94,7 @@ namespace MovieLand.db
                 IdentityUser user2 = new IdentityUser();
                 user2.UserName = "user2";
                 user2.Email = "user2@gmail.com";
-                IdentityResult result2 = userManager.CreateAsync(user2, "10082020").Result;
+                IdentityResult result2 = userManager.CreateAsync(user2, "Aa10082020").Result;
                 if (result2.Succeeded)
                 {
                     userManager.AddToRoleAsync(user2, "NormalUser").Wait();
@@ -103,7 +103,7 @@ namespace MovieLand.db
                 IdentityUser user3 = new IdentityUser();
                 user3.UserName = "user3";
                 user3.Email = "user3@gmail.com";
-                IdentityResult result3 = userManager.CreateAsync(user3, "10082020").Result;
+                IdentityResult result3 = userManager.CreateAsync(user3, "Aa10082020").Result;
                 if (result3.Succeeded)
                 {
                     userManager.AddToRoleAsync(user3, "NormalUser").Wait();
@@ -112,7 +112,7 @@ namespace MovieLand.db
                 IdentityUser user4 = new IdentityUser();
                 user4.UserName = "user4";
                 user4.Email = "user4@gmail.com";
-                IdentityResult result4 = userManager.CreateAsync(user4, "10082020").Result;
+                IdentityResult result4 = userManager.CreateAsync(user4, "Aa10082020").Result;
                 if (result4.Succeeded)
                 {
                     userManager.AddToRoleAsync(user4, "NormalUser").Wait();

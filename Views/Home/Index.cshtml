@@ -4,38 +4,39 @@
     ViewData["Title"] = "Home Page";
 }
 <head>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />   
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 
-<canvas id="myCanvas" width="1100" height="800" >
+<canvas id="myCanvas" width="1100" height="800">
     Your browser does not support the canvas element.
 </canvas>
 
 <script type="text/javascript">
-   
-  func()
-  function func() {
-      
-      var canvas = document.getElementById("myCanvas");
-      var ctx = canvas.getContext("2d");
-      var text = "Welcome To MovieLand";
-      var font = "80px Futura, Helvetica, sans-serif";
 
-      // save state
-      ctx.save();
-      ctx.font = font;
+    func()
+    function func() {
 
-      var offsetY = 190;
-      var offsetX = 0;
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var text = "Welcome To MovieLand";
+        var font = "80px Futura, Helvetica, sans-serif";
 
-      // throwing a linear-gradient in to shine up the text
-     var gradient = ctx.createLinearGradient(0, offsetY, 0, 165 + offsetY);
-      gradient.addColorStop(0.65, '#3caf92');
-     gradient.addColorStop(1.0, '#0d624d');
-      
-      ctx.fillStyle = gradient
-      ctx.fillText(text, offsetX, offsetY + 150);
+        // save state
+        ctx.save();
+        ctx.font = font;
 
-  };
+        var offsetY = 190;
+        var offsetX = 0;
+
+        // throwing a linear-gradient in to shine up the text
+        var gradient = ctx.createLinearGradient(0, offsetY, 0, 165 + offsetY);
+        gradient.addColorStop(0.65, '#3caf92');
+        gradient.addColorStop(1.0, '#0d624d');
+
+        ctx.fillStyle = gradient
+        ctx.fillText(text, offsetX, offsetY + 150);
+
+    };
 </script>
+
 

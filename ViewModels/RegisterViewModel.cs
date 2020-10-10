@@ -10,7 +10,7 @@ namespace MovieLand.ViewModels
     public class RegisterViewModel
     {
         [Required] 
-        [RegularExpression("([a-zA-Z0-9_]+)", ErrorMessage ="Only Alpha NUmeric Chars!")]
+        [RegularExpression("([a-zA-Z0-9_]+)", ErrorMessage ="Only Alpha Numeric Chars!")]
         public string Username { get; set; }
 
         [Required]

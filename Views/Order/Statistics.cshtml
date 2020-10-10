@@ -66,12 +66,12 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script>
                
-        // this handles which option to show based on radio button
+        
         var groupDiv = $("#group");
         var joinDiv = $("#join");
         $(document).ready(function () {
 
-            // show only group div if group is chosen
+            
             $('input[type="radio"]').click(function () {
                 var radioVal = this.value;
                 $('tbody').html(null);
@@ -80,13 +80,13 @@
                     joinDiv.hide();
                     groupDiv.show();
 
-                    // this sends a get with slected drop down value
+                    
                     $("select[id^='group']").change(function () {
                         
                         var sentData = $('option:selected', $(this)).text(); //this is the selcted drop dwon value
                         $.ajax({
-                            url: "groupResult", // use the result function which return a list of objects from query result in controller
-                            type: "get", //send it through get method
+                            url: "groupResult", 
+                            type: "get", 
                             data: {                                
                                 group: sentData                                
                             },
@@ -94,7 +94,7 @@
                                 var result = '';
                                 var head = '';
                                 
-                                // table head
+                                
                                     head +=
                                         '<tr>' +
                                         '<th>' + "Username" + '</th>' +
@@ -102,7 +102,7 @@
                                         '</tr>';
                                 $('thead').html(head);
 
-                                // table body
+                                
                                 $.each(response, function (key, value) {
                                     result +=
                                         '<tr>' +
@@ -122,22 +122,22 @@
                     groupDiv.hide();
                     joinDiv.show();
 
-                    // this sends a get with slected drop down value
+                    
                     $("select[id^='join']").change(function () {                       
-                        var sentData = $('option:selected', $(this)).text(); //this is the selcted drop dwon value
+                        var sentData = $('option:selected', $(this)).text(); 
                         $.ajax({
-                            url: "joinResult", // use the result function which return a list of objects from query result in controller
-                            type: "get", //send it through get method
+                            url: "joinResult", 
+                            type: "get", 
                             data: {                                
                                 join: sentData                                
                             },
                             success: function (response) {
                                 var head = '';
                                 var result = '';
-                                //display join with customers
+                                
                                 if (sentData === "Customers") {
 
-                                    // table head
+                                    
                                     head +=
                                         '<tr>' +
                                         '<th>' + "order ID" + '</th>' +
@@ -149,7 +149,7 @@
                                         '</tr>';
                                     $('thead').html(head);
 
-                                    // table body
+                                    
                                     $.each(response, function (key, value) {
                                     result +=
                                         '<tr>' +
@@ -163,10 +163,10 @@
                                     $('tbody').html(result);
                                     });
                                 }
-                                // display join with movies
+                                
                                 else if (sentData === "Movies") {
 
-                                    // table head
+                                    
                                     head +=
                                         '<tr>' +
                                         '<th>' + "Order ID" + '</th>' +
@@ -176,7 +176,7 @@
                                         '</tr>';
                                     $('thead').html(head);
 
-                                    // tbale body
+                                   
                                     $.each(response, function (key, value) {
                                     result +=
                                         '<tr>' +
@@ -200,9 +200,4 @@
         });
     </script>
 
-}
-
-@section Css
-{
-    
 }

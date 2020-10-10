@@ -16,15 +16,16 @@
     <div class="form-actions no-color">
         <p>
 
-            <!--search by customer: populating the drop down list dynamicaly-->
+            <!--Search by:-->
+
             Customer Username: <input type="text" name="customerSearch" value="@ViewData["CurrentFilter"]" />
 
             Movie Name:
-            <!--search by genre: populating the drop down list dynamicaly-->
+            
             @Html.DropDownList("Moviesearch", new SelectList(ViewBag.Movies, "Movie"), "Any")
 
             Price:
-            <!--search by price: populating the drop down list dynamicaly-->
+            
             @Html.DropDownList("priceSearch", new SelectList(ViewBag.priceCategory, "Price"), "Any")
 
             <br /><br />

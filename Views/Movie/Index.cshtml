@@ -122,15 +122,16 @@
     <script>
         $("select.dropdown").change(function(){
 
-            var priceOption = $('#priceSearch').find(":selected").text(); //this is the selcted price drop dwon value
-            var genreOption = $('#genreSearch').find(":selected").text(); //this is the selected genre drop down value
-            var directorOption = $('#directorSearch').find(":selected").text(); //this is the selected company dwon value
-            var yearOption = $('#yearSearch').find(":selected").text(); //this is the selected company dwon value
-            var ratingOption = $('#ratingSearch').find(":selected").text(); //this is the selected company dwon value
+            // Select values
+            var priceOption = $('#priceSearch').find(":selected").text(); 
+            var genreOption = $('#genreSearch').find(":selected").text(); 
+            var directorOption = $('#directorSearch').find(":selected").text(); 
+            var yearOption = $('#yearSearch').find(":selected").text(); 
+            var ratingOption = $('#ratingSearch').find(":selected").text(); 
 
             $.ajax({
-                url: "Movie/search", // use the result function which return a list of objects from query result in controller
-                type: "get", //send it through get method
+                url: "Movie/search", 
+                type: "get", 
                 data: {
                     priceSearch: priceOption,
                     genreSearch: genreOption,
@@ -140,14 +141,14 @@
                 },
                 success: function (response) {
                     var result = '';
-                    // checks if user is admin for later displays
+                    
                     var isAdmin = '@User.IsInRole("Administrator")';
-                    // if the reponse is empty display an empty table (in case no movies match the filter)
+                    
                     if (response == '') {
                         result = " "
                         $('tbody').html(result);
                     }
-                    // table body
+                    
                     $.each(response, function (key, value) {
                         result +=
                             '<tr>' +

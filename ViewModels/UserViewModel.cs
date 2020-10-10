@@ -11,7 +11,7 @@ namespace MovieLand.ViewModels
     {
         public string Role { get; set; }
 
-        // used only in reset password
+        // Only with reset pass
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }

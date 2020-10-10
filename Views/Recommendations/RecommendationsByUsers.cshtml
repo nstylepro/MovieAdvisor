@@ -10,20 +10,22 @@
 
 <div class="form-actions no-color">
     <p>
+
+        <!--Search by:-->
         Price:
-        <!--search by price: populating the drop down list dynamicaly-->
+        
         @Html.DropDownList("priceSearch", new SelectList(ViewBag.priceCategory, "Price"), "Any", new { @class = "dropdown" })
 
         Genre:
-        <!--search by genre: populating the drop down list dynamicaly-->
+        
         @Html.DropDownList("genreSearch", new SelectList(ViewBag.genres, "Genre"), "Any", new { @class = "dropdown" })
 
         Director:
-        <!--search by company: populating the drop down list dynamicaly-->
+        
         @Html.DropDownList("directorSearch", new SelectList(ViewBag.directors, "Director"), "Any", new { @class = "dropdown" })
 
         Year:
-        <!--search by year: populating the drop down list dynamicaly-->
+        
         @Html.DropDownList("yearSearch", new SelectList(ViewBag.yearCategory, "Year"), "Any", new { @class = "dropdown" })
 
         IMDB Rating:
@@ -100,27 +102,26 @@
 {
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script>
-        //var recmovies = { Movies: 'Model' };
+        
 
         $("select.dropdown").change(function(){
 
-            var priceOption = $('#priceSearch').find(":selected").text(); //this is the selcted price drop dwon value
-            var genreOption = $('#genreSearch').find(":selected").text(); //this is the selected genre drop down value
-            var directorOption = $('#directorSearch').find(":selected").text(); //this is the selected company dwon value
-            var yearOption = $('#yearSearch').find(":selected").text(); //this is the selected company dwon value
-            var ratingOption = $('#ratingSearch').find(":selected").text(); //this is the selected company dwon value
+            var priceOption = $('#priceSearch').find(":selected").text(); 
+            var genreOption = $('#genreSearch').find(":selected").text(); 
+            var directorOption = $('#directorSearch').find(":selected").text(); 
+            var yearOption = $('#yearSearch').find(":selected").text(); 
+            var ratingOption = $('#ratingSearch').find(":selected").text(); 
 
-            // i created a string of the recommended movies ids to pass to the controller each time he searches a movie in the recommendations
-            // i did this so the search will only be on recommended movies without calculating recommendations anew each time the user searches
-            var recMovies = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@Model) as String); // create json of recommended movies passed to view
+            
+            var recMovies = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@Model) as String); 
             var recMoviesIds = "";
             $.each(recMovies, function () {
                 recMoviesIds = recMoviesIds + "," + this.MovieID.toString();
             });
 
             $.ajax({
-                url: "../Movie/search", // use the result function which return a list of objects from query result in controller
-                type: "post", //send it through post method
+                url: "../Movie/search", 
+                type: "post", 
                 data: {
                     priceSearch: priceOption,
                     genreSearch: genreOption,
@@ -131,12 +132,12 @@
                 },
                 success: function (response) {
                     var result = '';
-                    // if the reponse is empty display an empty table (in case no movies match the filter)
+                    
                     if (response == '') {
                         result = " "
                         $('tbody').html(result);
                     }
-                    // table body
+                    
                     $.each(response, function (key, value) {
                         result +=
                             '<tr>' +

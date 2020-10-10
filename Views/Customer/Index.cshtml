@@ -16,7 +16,7 @@
 <div class="form-actions no-color">
     <p>
         Country:
-        <!--search by Country: populating the drop down list dynamicaly-->
+        
         @Html.DropDownList("country", new SelectList(ViewBag.countries, "Country"), "Select Country")
 
         |
@@ -85,9 +85,9 @@
                 @Html.DisplayFor(modelItem => item.Gender)
             </td>
             <td>
+                <a asp-action="Map" asp-route-id="@item.Username">Map</a> |
                 <a asp-action="Edit" asp-route-id="@item.Username">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Username">Details</a> |
-                <a asp-action="Map" asp-route-id="@item.Username">Map</a> |
                 <a asp-action="Delete" asp-route-id="@item.Username">Delete</a>
             </td>
         </tr>
@@ -99,19 +99,20 @@
 {
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script>
-        // this sends a get with slected drop down value
+
         $("select[id^='country']").change(function () {
 
-            var sentData = $('option:selected', $(this)).text(); //this is the selcted drop dwon value
+            // Selected Values
+            var sentData = $('option:selected', $(this)).text(); 
             $.ajax({
-                url: "Customer/countrySearchResult", // use the result function which return a list of objects from query result in controller
-                type: "get", //send it through get method
+                url: "Customer/countrySearchResult", 
+                type: "get", 
                 data: {
                     countrySearch: sentData
                 },
                 success: function (response) {
                     var result = '';
-                    // table body
+                   
                     $.each(response, function (key, value) {
                         result +=
                             '<tr>' +

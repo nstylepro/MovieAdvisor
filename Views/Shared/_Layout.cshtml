@@ -77,11 +77,11 @@
                     }
                 </ul>
 
-                <!-- this is the identity part of the layout -->
+                
                 <ul class="nav navbar-nav" style="float:right;">
                     @if (signInManager.IsSignedIn(User))
                     {
-                        //if the user is signed inhide the login and display the logout
+                        
                         <li>
                             <form method="post" asp-controller="Account" asp-action="Logout">
                                 <button type="submit" class="btn btn-danger navbar-btn" style="width:auto">

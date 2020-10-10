@@ -32,7 +32,7 @@
             </td>
                 @if (User.Identity.Name != "admin")
                 {
-                    // ^^^^^^^ cannot delete default admin to not lose control over the website
+                    // Not possible to delte the admin account
                     <a asp-action="Delete" asp-route-id="@User.Identity.Name">Delete</a>
                 }
                 |
@@ -44,8 +44,3 @@
         
     </tbody>
 </table>
-
-@section Scripts
-{
-
-}

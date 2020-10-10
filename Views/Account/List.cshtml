@@ -42,13 +42,13 @@
 
                     @if (user.Role != "Administrator")
                     {
-                        // ^^^^^^^ make admin is avialable only if the user is not an admin
+                        // Only not admin can create an admin
                         <a asp-action="MakeAdmin" asp-route-id="@user.UserName">Make Admin</a> <i> | </i>
                     }
 
                     @if (user.UserName != "admin")
                     {
-                        // ^^^^^^^ cannot delete default admin to not lose control over the website
+                        // Not possible to delete admin user
                         <a asp-action="Delete" asp-route-id="@user.UserName">Delete</a> <i> | </i>
                     }
                     <a asp-action="Edit" asp-route-id="@user.UserName">Edit</a> |
@@ -59,7 +59,3 @@
     </tbody>
 </table>
 
-@section Scripts
-{
-
-}

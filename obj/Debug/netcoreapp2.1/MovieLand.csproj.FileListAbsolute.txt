@@ -244,10 +244,6 @@ C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Account\Edit.cs
 C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Account\List.cshtml.g.cs
 C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Account\Login.cshtml.g.cs
 C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Account\Register.cshtml.g.cs
-C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Company (deprecated!)\Create.cshtml.g.cs
-C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Company (deprecated!)\Delete.cshtml.g.cs
-C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Company (deprecated!)\Edit.cshtml.g.cs
-C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Company (deprecated!)\Index.cshtml.g.cs
 C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Company.cshtml.g.cs
 C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Customer\Create.cshtml.g.cs
 C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Customer\CreateForUser.cshtml.g.cs
@@ -259,7 +255,6 @@ C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Customer\Index.
 C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Customer\Map.cshtml.g.cs
 C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Error\AppError.cshtml.g.cs
 C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Error\PageNotFound.cshtml.g.cs
-C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Home\About.cshtml.g.cs
 C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Home\Contact.cshtml.g.cs
 C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Home\Privacy.cshtml.g.cs
@@ -503,3 +498,4 @@ C:\Projects\MovieAdvisor\obj\Debug\netcoreapp2.1\MovieLand.dll
 C:\Projects\MovieAdvisor\obj\Debug\netcoreapp2.1\MovieLand.pdb
 C:\Projects\MovieAdvisor\obj\Debug\netcoreapp2.1\MovieLand.genruntimeconfig.cache
 C:\Projects\MovieAdvisor\obj\Debug\netcoreapp2.1\MovieLand.csproj.CopyComplete
+C:\MovieAdvisor\MovieAdvisor\obj\Debug\netcoreapp2.1\MovieLand.csprojAssemblyReference.cache

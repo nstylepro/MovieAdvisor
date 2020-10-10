@@ -19,7 +19,6 @@ namespace MovieLand.Controllers
 
     public class OrderController : Controller
     {
-        // creating context then passing it to controller
         private readonly ShopContext _context;
 
         public OrderController(ShopContext context)
@@ -27,8 +26,6 @@ namespace MovieLand.Controllers
             _context = context;
         }
 
-
-        // GET: Orders
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index(string customerSearch, string Moviesearch, string priceSearch, DateTime? edate, DateTime? ldate)
         {
@@ -37,20 +34,16 @@ namespace MovieLand.Controllers
                 .Include(o => o.Buyer)
                 .Select(o => o);
 
-            // so data wont reset when form is submitted
             ViewData["CurrentFilter"] = customerSearch;
             ViewData["CurrentEdate"] = edate?.ToString("yyyy-MM-dd hh:mm:ss");
             ViewData["CurrentLdate"] = ldate?.ToString("yyyy-MM-dd hh:mm:ss");
 
-            // query movie names
             var Movies = _context.Movies.Select(g => g.MovieName).Distinct().ToList();
             ViewBag.Movies = Movies;
 
-            // create list for price categories
             List<string> priceCategory = new List<string> { "Under 40 NIS", "Under 100 NIS", "Under 200 NIS" };
             ViewBag.priceCategory = priceCategory;
 
-            // search based on price
             if (priceSearch != null)
             {
                 switch (priceSearch)
@@ -70,24 +63,21 @@ namespace MovieLand.Controllers
 
             }
 
-            // search based on early date
             if (edate!=null)
             {
                 orders = orders.Where(o => o.OrderDate > edate);
             }
-            // search based on late date
+
             if (ldate!=null)
             {
                 orders = orders.Where(o => o.OrderDate < ldate);
             }
 
-            // search based on customer id
             if (customerSearch != null)
             {
                 orders = orders.Where(o => o.CustomerUsername == customerSearch);
             }
 
-            // search based on movie name
             if (Moviesearch != null)
             {
                 orders = orders.Where(o => o.OrderedMovie.MovieName == Moviesearch);
@@ -96,33 +86,27 @@ namespace MovieLand.Controllers
             return View(await orders.ToListAsync());
         }
 
-        // GET: Order/Create
         [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {                   
             return View();
         }
 
-        // POST: Order/Create
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("OrderID,CustomerUsername,MovieID,OrderDate")] Order order)
         {
-            // linq query to check if a customer is registered
             var customerExists =
                from customer in _context.Customers
                where customer.Username == order.CustomerUsername
                select customer;
 
-            // linq query to check if a movie id exists
             var MovieExists =
                from Movie in _context.Movies
                where Movie.MovieID == order.MovieID
                select Movie;
 
-
-            // if the customer is registered in the db then they can order
             if (customerExists.Any() & MovieExists.Any())
             {
                 if (ModelState.IsValid)
@@ -134,14 +118,12 @@ namespace MovieLand.Controllers
                 return View(order);
             }
 
-            // if the customer is not registered in the db, redirects to create customer page and requests to register as a customer before ordering
             else if (!customerExists.Any())
             {
                 TempData["error"] = "please add customer data before ordering";
                 return RedirectToAction("Create", "Customer");
             }
 
-            // if the movie doesnt exist
             else
             {
                 ViewBag.Error2 = "wrong movie id";
@@ -149,7 +131,6 @@ namespace MovieLand.Controllers
             }
         }
 
-        // GET: Order/Delete
         [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -163,7 +144,6 @@ namespace MovieLand.Controllers
                 .Include(o => o.Buyer)
                 .FirstOrDefaultAsync(o => o.OrderID == id);
 
-            // to prevent attempts to delete orders that are not your own, unless you are an admin
             if ((!User.IsInRole("Administrator")) && (User.Identity.Name != order.CustomerUsername))
             {
                 return NotFound();
@@ -177,7 +157,6 @@ namespace MovieLand.Controllers
             return View(order);
         }
 
-        // POST: Order/Delete
         [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -186,7 +165,6 @@ namespace MovieLand.Controllers
             
             var order = await _context.Orders.FindAsync(id);
 
-            // to prevent attempts to delete orders that are not your own, unless you are an admin
             if ((!User.IsInRole("Administrator")) && (User.Identity.Name != order.CustomerUsername))
             {
                 return NotFound();
@@ -195,7 +173,6 @@ namespace MovieLand.Controllers
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
 
-            // return to appropriate page for admin and for regular users accordingly
             if (User.IsInRole("Administrator"))
             {
                 return RedirectToAction(nameof(Index));
@@ -203,8 +180,6 @@ namespace MovieLand.Controllers
             return RedirectToAction("DetailsForUser", "Customer");
         }
 
-
-        // GET: Order/Edit
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -221,7 +196,6 @@ namespace MovieLand.Controllers
             return View(order);
         }
 
-        // POST: Order/Edit 
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -232,7 +206,6 @@ namespace MovieLand.Controllers
                 return NotFound();
             }
 
-            // linq query to check if a movie id exists
             var MovieExists =
                from Movie in _context.Movies
                where Movie.MovieID == order.MovieID
@@ -262,7 +235,6 @@ namespace MovieLand.Controllers
                 }
                 return View(order);
             }
-            // if the movie doesnt exist
             else
             {
                 ViewBag.Error2 = "wrong movie id";
@@ -280,20 +252,13 @@ namespace MovieLand.Controllers
             public int count;
         }
 
-        // GET: Orders/Statistics
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Statistics(string groupChoice, string joinChoice)
         {
-
-            // so data wont reset when form is submitted
             ViewData["CurrentFilterGroup"] = groupChoice;
             ViewData["CurrentFilterJoin"] = joinChoice;
            
-
-
-            // create list for join categories
             List<string> groupOption = new List<string> { "Movie", "Customer" };
-            // create list for join categories
             List<string> joinOption = new List<string> { "Movies", "Customers"};
             List<GroupedCount> empty = new List<GroupedCount>();
             ViewBag.group = groupOption;
@@ -306,17 +271,14 @@ namespace MovieLand.Controllers
         [Authorize(Roles = "Administrator")]
         public List<GroupedCount> groupResult(string group)
         {
-            
-                                  
-            // group queries and final result 
             List<GroupedCount> result = new List<GroupedCount>();
             var groupedByMovie = from o in _context.Orders
-                                group o by o.OrderedMovie.MovieName into g
-                                select new GroupedCount { name = g.Key, count = g.Count() };
+                                group o by o.OrderedMovie.MovieName into movie
+                                select new GroupedCount { name = movie.Key, count = movie.Count() };
             var groupedByCustomer = from o in _context.Orders
-                                    group o by o.CustomerUsername into g
-                                    select new GroupedCount { name = g.Key, count = g.Count() };
-            // group
+                                    group o by o.CustomerUsername into movie
+                                    select new GroupedCount { name = movie.Key, count = movie.Count() };
+
             if (group != null)
             {
                 switch (group)

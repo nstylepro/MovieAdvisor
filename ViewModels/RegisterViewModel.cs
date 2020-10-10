@@ -9,8 +9,8 @@ namespace MovieLand.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required] 
-        [RegularExpression("([a-zA-Z0-9_]+)", ErrorMessage ="Only Alpha NUmeric Chars!")]
+        [Required]
+        [RegularExpression("([a-zA-Z0-9_]+)", ErrorMessage = "Only Alpha Numeric Chars!")]
         public string Username { get; set; }
 
         [Required]
@@ -23,8 +23,8 @@ namespace MovieLand.ViewModels
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name= "Confirm Password")]
-        [Compare("Password", ErrorMessage ="Passwords Do Not Match")]
+        [Display(Name = "Confirm Password")]
+        [Compare("Password", ErrorMessage = "Passwords Do Not Match")]
         public string ConfirmPassword { get; set; }
 
     }

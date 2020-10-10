@@ -4,11 +4,11 @@
     ViewData["Title"] = "Delete";
 }
 <head>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />   
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <h2>Delete User</h2>
 
-<h4>Are You Sure You Want To Delete This User? All His Data Will Be Deleted!</h4>
+<h4>Are You Sure You Want To Delete This User? </h4>
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -23,9 +23,9 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Email)
-        </dd>      
-    </dl>  
- 
+        </dd>
+    </dl>
+
 
     <form asp-action="Delete">
         @if (User.IsInRole("Administrator"))
@@ -37,7 +37,7 @@
         else
         {
             <input type="hidden" asp-for="UserName" />
-            <input type="submit" value="Delete" class="btn btn-default" /> 
+            <input type="submit" value="Delete" class="btn btn-default" />
         }
 
     </form>

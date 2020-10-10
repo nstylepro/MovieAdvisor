@@ -3,80 +3,71 @@
     ViewData["Title"] = "Graphs";
 }
 <head>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />   
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <h2>Graphs</h2>
-<br /><br />
+<br />
+<br />
 @Html.DropDownList("group", new SelectList(ViewBag.group, "Grouped"), "Select Option")
 <!DOCTYPE html>
 <meta charset="utf-8">
 
-<!-- Load d3.js -->
+
 <script src="https://d3js.org/d3.v4.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<!-- Create a div where the graph will take place -->
+
 <div id="my_dataviz"></div>
 
 <script>
+    $(document).ready(function () {
 
-$(document).ready(function ()
-{
-        // this sends a get with slected drop down value
-    $("select[id^='group']").change(function () {
-         $('#my_dataviz').html(null);                    
-        var sentData = $('option:selected', $(this)).text(); //this is the selcted drop dwon value
-                              
-                // set the dimensions and margins of the graph
-        var margin = { top: 30, right: 30, bottom: 70, left: 60 },
-            width = 460 - margin.left - margin.right,
-            height = 400 - margin.top - margin.bottom;
+        $("select[id^='group']").change(function () {
+            $('#my_dataviz').html(null);
+            var sentData = $('option:selected', $(this)).text();
 
-        // append the svg object to the body of the page
-        var svg = d3.select("#my_dataviz")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
+            // Set the graph
+            var margin = { top: 32, right: 32, bottom: 72, left: 62 },
+                width = 470 - margin.left - margin.right,
+                height = 410 - margin.top - margin.bottom;
 
-        // Parse the Data
-        d3.json("jsonGraph?group=" + sentData, function (data) {
+            var svg = d3.select("#my_dataviz")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+            d3.json("jsonGraph?group=" + sentData, function (data) {
 
-            // X axis
-            var x = d3.scaleBand()
-                .range([0, width])
-                .domain(data.map(function (d) { return d.name; }))
-                .padding(0.2);
-            svg.append("g")
-                .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x))
-                .selectAll("text")
-                .attr("transform", "translate(-10,0)rotate(-45)")
-                .style("text-anchor", "end");
+                var x = d3.scaleBand()
+                    .range([0, width])
+                    .domain(data.map(function (d) { return d.name; }))
+                    .padding(0.2);
+                svg.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x))
+                    .selectAll("text")
+                    .attr("transform", "translate(-10,0)rotate(-45)")
+                    .style("text-anchor", "end");
 
-            // Add Y axis
-            var y = d3.scaleLinear()
-                .domain([0, 10])
-                .range([height, 0]);
-            svg.append("g")
-                .call(d3.axisLeft(y));
+                var y = d3.scaleLinear()
+                    .domain([0, 10])
+                    .range([height, 0]);
+                svg.append("g")
+                    .call(d3.axisLeft(y));
 
-            // Bars
-            svg.selectAll("mybar")
-                .data(data)
-                .enter()
-                .append("rect")
-                .attr("x", function (d) { return x(d.name); })
-                .attr("y", function (d) { return y(d.count); })
-                .attr("width", x.bandwidth())
-                .attr("height", function (d) { return height - y(d.count); })
-                .attr("fill", "#69b3a2")
+                svg.selectAll("mybar")
+                    .data(data)
+                    .enter()
+                    .append("rect")
+                    .attr("x", function (d) { return x(d.name); })
+                    .attr("y", function (d) { return y(d.count); })
+                    .attr("width", x.bandwidth())
+                    .attr("height", function (d) { return height - y(d.count); })
+                    .attr("fill", "#69b3a2")
+            })
 
-        })
-           
-                      
+
+        });
     });
-});
-
 </script>

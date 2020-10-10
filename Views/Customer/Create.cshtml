@@ -4,11 +4,11 @@
     ViewData["Title"] = "Create Customer";
 }
 <head>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />   
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
-<!--tell the user to create a customer record if he tried to order without being registered-->
+
 <h2> @TempData["error"]</h2>
-<!--if movie id already exists-->
+<!--movie already exists-->
 @if (this.ViewBag.Error4 != null)
 {
     <h2>Customer Username already exists!</h2>

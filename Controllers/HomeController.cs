@@ -38,7 +38,7 @@ namespace MovieLand.Controllers
             return View();
         }
         
-        public IActionResult Sales()
+        public IActionResult Twitter()
         {
             return View();
         }

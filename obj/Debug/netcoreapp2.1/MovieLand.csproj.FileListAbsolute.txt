@@ -506,7 +506,6 @@ D:\MovieAdvisor\bin\Debug\netcoreapp2.1\MovieLand.dll
 D:\MovieAdvisor\bin\Debug\netcoreapp2.1\MovieLand.pdb
 D:\MovieAdvisor\bin\Debug\netcoreapp2.1\MovieLand.Views.dll
 D:\MovieAdvisor\bin\Debug\netcoreapp2.1\MovieLand.Views.pdb
-D:\MovieAdvisor\obj\Debug\netcoreapp2.1\MovieLand.csprojAssemblyReference.cache
 D:\MovieAdvisor\obj\Debug\netcoreapp2.1\MovieLand.AssemblyInfoInputs.cache
 D:\MovieAdvisor\obj\Debug\netcoreapp2.1\MovieLand.AssemblyInfo.cs
 D:\MovieAdvisor\obj\Debug\netcoreapp2.1\MovieLand.csproj.CoreCompileInputs.cache
@@ -534,7 +533,6 @@ D:\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Error\AppError.cshtml.g.cs
 D:\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Error\PageNotFound.cshtml.g.cs
 D:\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.cshtml.g.cs
 D:\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Home\Privacy.cshtml.g.cs
-D:\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Home\Sales.cshtml.g.cs
 D:\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Movie\Buy.cshtml.g.cs
 D:\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Movie\Create.cshtml.g.cs
 D:\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Movie\Delete.cshtml.g.cs
@@ -562,3 +560,4 @@ D:\MovieAdvisor\obj\Debug\netcoreapp2.1\MovieLand.dll
 D:\MovieAdvisor\obj\Debug\netcoreapp2.1\MovieLand.pdb
 D:\MovieAdvisor\obj\Debug\netcoreapp2.1\MovieLand.genruntimeconfig.cache
 D:\MovieAdvisor\obj\Debug\netcoreapp2.1\MovieLand.csproj.CopyComplete
+D:\MovieAdvisor\obj\Debug\netcoreapp2.1\Razor\Views\Home\Twitter.cshtml.g.cs

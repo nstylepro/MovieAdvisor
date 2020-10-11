@@ -17,7 +17,7 @@ namespace MovieLand.Controllers
     public class MovieController : Controller
     {
 
-        // creating context then passing it to controller
+        
         private readonly ShopContext _context;
 
         public MovieController(ShopContext context)
@@ -25,20 +25,20 @@ namespace MovieLand.Controllers
             _context = context;
         }
          
-        // results for search by price
+        
         public List<Movie> search(string priceSearch, string genreSearch, string directorSearch, string yearSearch, string ratingSearch, string recMoviesIds =null)
         {
-            // all Movies
+          
             var movies = from movie in _context.Movies
                         select movie;
-            // this parameter is used as a string of movie ids passed only from the recommendations view,
-            // this is used to avoid calculating recommended Movies each time the user searches Movies in his recommendations view
+           
+           
             if (recMoviesIds != null)
             {
                 movies = _context.Movies.Where(movie => recMoviesIds.Contains(movie.MovieID.ToString()));
             }
 
-            // search based on price
+            
             if (priceSearch != null)
             {
                 switch (priceSearch)
@@ -57,7 +57,7 @@ namespace MovieLand.Controllers
                 }
             }
 
-            // search based on year
+           
             if (yearSearch != null)
             {
                 switch (yearSearch)
@@ -76,7 +76,7 @@ namespace MovieLand.Controllers
                 }
             }
 
-            // search based on rating
+            
             if (ratingSearch != null)
             {
                 switch (ratingSearch)
@@ -95,14 +95,14 @@ namespace MovieLand.Controllers
                 }
             }
 
-            // search based on genre
+          
             if (genreSearch != null && genreSearch != "Any")
             {
                 movies = movies.Where(movie => movie.Genre.Contains(genreSearch));
             }
 
 
-            // search based on director
+           
             if (directorSearch != null && directorSearch != "Any")
             {
                 movies = movies.Where(movie => movie.Director == directorSearch);
@@ -112,14 +112,14 @@ namespace MovieLand.Controllers
         }
 
         
-        // GET: Movies
+        
         public async Task<IActionResult> Index()
         {
-            // query Movies 
+            
             var Movies = from movie in _context.Movies
                            select movie;
 
-            // create list for price categories
+          
             List<string> priceCategory = new List<string> { "Under 40 NIS", "Under 100 NIS", "Under 200 NIS" };
             ViewBag.priceCategory = priceCategory;
 
@@ -129,10 +129,10 @@ namespace MovieLand.Controllers
             List<string> ratings = new List<string> { "7+", "8+", "9+" };
             ViewBag.ratings = ratings;
 
-            // query genres
+            
             var genres =  _context.Movies.Select(movie => movie.Genre).Distinct().ToList();
 
-            // get single genres for the search options
+           
             HashSet<string> singleGenres = new HashSet<string>();
             foreach (string genre in genres)
             {
@@ -144,14 +144,13 @@ namespace MovieLand.Controllers
             }
             ViewBag.genres = singleGenres;
 
-            // query Director
+          
             var directors = _context.Movies.Select(movie => movie.Director).Distinct().ToList();
             ViewBag.directors = directors;
  
             return View(await Movies.ToListAsync());
         }
-
-        // GET: Movie/Details/
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -169,20 +168,20 @@ namespace MovieLand.Controllers
             return View(Movie);
         }
 
-        // GET: Movies/Create
+       
         [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Movies/Create
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("MovieID,ImdbID,MovieName,Year,Price,Director,Genre,TrailerID")] Movie movie)
         {
-            // linq query to check if a Movie id exists
+          
             var movieExists =
                 from m in _context.Movies
                 where m.MovieID == movie.MovieID
@@ -207,9 +206,7 @@ namespace MovieLand.Controllers
                 return View();
             }
         }
-
-
-        // GET: Movies/Delete
+       
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -228,7 +225,7 @@ namespace MovieLand.Controllers
             return View(Movie);
         }
 
-        // POST: Movies/Delete
+        
         [Authorize(Roles = "Administrator")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -236,11 +233,9 @@ namespace MovieLand.Controllers
         {
             var Movie = await _context.Movies.FirstOrDefaultAsync(movie => movie.MovieID == id);
 
-            // delete all this specific movie's orders (order is a weak entity and cannot exist without a valid movie id)
-            _context.Orders.RemoveRange(_context.Orders.Where(order => order.MovieID == id));
-            // _context.SaveChangesAsync();
-
-            // delete the Movie
+            
+            _context.Orders.RemoveRange(_context.Orders.Where(order => order.MovieID == id));        
+           
             _context.Movies.Remove(Movie);
             await _context.SaveChangesAsync();
 
@@ -248,7 +243,7 @@ namespace MovieLand.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Movie/Edit
+        
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -265,7 +260,7 @@ namespace MovieLand.Controllers
             return View(Movie);
         }
 
-        // POST: Movie/Edit 
+        
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -309,7 +304,7 @@ namespace MovieLand.Controllers
         }
 
 
-        // GET: Movie/Buy
+        
         [Authorize]
         public async Task<IActionResult> Buy(int? id)
         {
@@ -318,7 +313,7 @@ namespace MovieLand.Controllers
                 return NotFound();
             }
 
-            // you can only order Movies if you are authenticated, if not the it redirects to login page
+            
             if (User.Identity.IsAuthenticated)
             {
                 var Movie = await _context.Movies.FindAsync(id);
@@ -334,7 +329,7 @@ namespace MovieLand.Controllers
 
         }
 
-        // POST: Movies/Buy
+        
         [Authorize]
         [HttpPost, ActionName("Buy")]
         [ValidateAntiForgeryToken]
@@ -342,7 +337,7 @@ namespace MovieLand.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                // linq query to check if a customer is registered
+                
                 var customerExists =
                    from customer in _context.Customers
                    where customer.Username == User.Identity.Name
@@ -352,7 +347,7 @@ namespace MovieLand.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        // create new order and add it to the db               
+                        
                         var order = new Order { CustomerUsername = User.Identity.Name, MovieID = id, OrderDate = DateTime.Now };
                         _context.Orders.Add(order);
                         await _context.SaveChangesAsync();
@@ -360,7 +355,7 @@ namespace MovieLand.Controllers
                     }
                    
                 }
-                // if the customer is not registered in the db, redirects to create customer page and requests to register as a customer before ordering
+               
                 else 
                 {
                     ViewBag.Error = "please add customer data before ordering";
@@ -371,7 +366,7 @@ namespace MovieLand.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // this handles the request and response to and from the imdb (massive online Movie store) databse by Movie id (it has to be the Movie id on the imdb database)
+        
         public static HttpWebResponse getImdbData(string id)
         {
             string apikey = "e029e17a";
@@ -381,15 +376,14 @@ namespace MovieLand.Controllers
             var response = (HttpWebResponse)httpRequest.GetResponse();
 
             return response;
-        }
+        }    
 
-        // this parses the response from the imdb database in order to get the Movies price (you get alot of other data as well)
         public static float imdbRating(string id)
         {
             var result = getImdbData(id);
             System.IO.StreamReader sr = new System.IO.StreamReader(result.GetResponseStream());
             string line = "";
-            // the regex to get the price from the data
+           
             Regex reg = new Regex(@"imdbRating.:.(\d.\d)");
 
             while ((line = sr.ReadLine()) != null)
@@ -400,8 +394,7 @@ namespace MovieLand.Controllers
                     return (float.Parse(match.Groups[1].Value));
                 }
             }
-
-            // default price
+            
             return (0);
         }
     }

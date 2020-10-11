@@ -26,15 +26,11 @@ namespace MovieLand.Controllers
             _context = context;
         }
 
-
-        // GET: Customers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index(string countrySearch)
         {
             var customers = _context.Customers
                 .Select(c => c);
-
-            // query countries
             var countries = _context.Customers.Select(c => c.Country).Distinct().ToList();
             ViewBag.countries = countries;
 
@@ -47,7 +43,6 @@ namespace MovieLand.Controllers
             var customers = _context.Customers
                .Select(c => c);
 
-            // search based on country
             if (countrySearch != null)
             {
                 customers = customers.Where(c => c.Country == countrySearch);
@@ -56,7 +51,6 @@ namespace MovieLand.Controllers
             return (result);
         }
 
-        // GET: Customer/Details/
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Details(string id)
         {
@@ -77,21 +71,21 @@ namespace MovieLand.Controllers
             return View(customer);
         }
 
-        // GET: Customer/Create
+        
         [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Customer/Create
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("Username,FirstName,LastName,Country,City,Street,Age,Gender")] Customer customer)
         {
 
-            // linq query to check if a customer is registered
+           
             var customerExists =
                from c in _context.Customers
                where c.Username == customer.Username
@@ -107,7 +101,7 @@ namespace MovieLand.Controllers
                 }
                 return View(customer);
             }
-            // if the customer user already exists
+            
             else
             {
                 ViewBag.Error4 = "Customer Username already exists!";
@@ -115,11 +109,11 @@ namespace MovieLand.Controllers
             }
         }
 
-        // GET: Customer/Delete
+       
         [Authorize]
         public async Task<IActionResult> Delete(string id)
         {
-            // to prevent attempts to delete users that are not your own, unless you are an admin
+            
             if ((!User.IsInRole("Administrator")) && (User.Identity.Name != id))
             {
                 return NotFound();
@@ -142,7 +136,7 @@ namespace MovieLand.Controllers
             return View(customer);
         }
 
-        // POST: Customer/Delete
+       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize]
@@ -157,29 +151,27 @@ namespace MovieLand.Controllers
                 .Include(c => c.Orders)
                 .FirstOrDefaultAsync(c2 => c2.Username == username);
 
-            // delete all the specific customer's orders (order is a weak entity and cannot exist without a valid customer id)
+           
             _context.Orders.RemoveRange(_context.Orders.Where(o => o.CustomerUsername == username));
-            //await _context.SaveChangesAsync();
-
-            // delete the customer
+          
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
 
-            // if its an admin deleting a different user
+           
             if (User.IsInRole("Administrator") && User.Identity.Name != username)
             {
                 return RedirectToAction(nameof(Index));
             }
-            // after the user deleted his customer page 
+            
             return RedirectToAction("Index", "Home");
         }
 
 
-        // GET: Customer/Edit
+      
         [Authorize]
         public async Task<IActionResult> Edit(string id)
         {
-            // to prevent editing a user that is not your own unless you are an admin
+            
             if ((!User.IsInRole("Administrator")) && (User.Identity.Name != id))
             {
                 return NotFound();
@@ -198,13 +190,13 @@ namespace MovieLand.Controllers
             return View(customer);
         }
 
-        // POST: Customer/Edit   
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> Edit(string username, [Bind("Username,FirstName,LastName,Country,City,Street,Age,Gender")] Customer customer)
         {
-            // to prevent editing a user that is not your own unless you are an admin
+          
             if ((!User.IsInRole("Administrator")) && (User.Identity.Name != username))
             {
                 return NotFound();
@@ -233,13 +225,13 @@ namespace MovieLand.Controllers
                         throw;
                     }
                 }
-                // if its an admin editing someone else, redirect him back
+               
                 if (User.IsInRole("Administrator"))
                 {
                     return RedirectToAction("Index");
                 }
             }
-            // if its a user editing himself redirect him to his details page
+           
             return RedirectToAction("DetailsForUser");
         }
         private bool CustomerExists(string username)
@@ -250,17 +242,17 @@ namespace MovieLand.Controllers
 
 
 
-        // GET: Customer/CreateForUser
+        
         [HttpGet]
         [Authorize]
         public IActionResult CreateForUser()
         {
-            // linq query to check if a customer is registered
+           
             var customerExists =
                from customer in _context.Customers
                where customer.Username == User.Identity.Name
                select customer;
-            // if the user is already registered as a customer then redirect him to his customer details page and display an error
+           
             if (customerExists.Any())
             {
                 TempData["error"] = "Already Registered As A Customer";
@@ -269,15 +261,15 @@ namespace MovieLand.Controllers
             return View();
         }
 
-        // POST: Customer/CreateForUser
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> CreateForUser([Bind("FirstName,LastName,Country,City,Street,Age,Gender")] Customer customer)
         {
-            // change the customer username to current username
+            
             customer.Username = User.Identity.Name;
-            // linq query to check if a customer is registered
+           
             var customerExists =
                from c in _context.Customers
                where c.Username == User.Identity.Name
@@ -289,17 +281,14 @@ namespace MovieLand.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("DetailsForUser", "Customer");
             }
-            // if the customer user already exists
+            
             else
             {
                 TempData["error"] = "already registered as a customer!";
                 return RedirectToAction("DetailsForUser", "Customer");
             }
         }
-
-
-
-        // GET: Customer/DetailsForUser/
+       
         [Authorize]
         public async Task<IActionResult> DetailsForUser()
         {
@@ -316,8 +305,7 @@ namespace MovieLand.Controllers
 
             return View(customer);
         }
-
-        // GET: Customer/Map
+       
         public IActionResult Map(string id)
         {
             var customer = _context.Customers.FindAsync(id).Result;

@@ -102,7 +102,7 @@ namespace MovieLand.Controllers
             }
 
 
-            // search based on company
+            // search based on director
             if (directorSearch != null && directorSearch != "Any")
             {
                 movies = movies.Where(movie => movie.Director == directorSearch);

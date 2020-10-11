@@ -42,7 +42,7 @@ namespace MovieLand.Models
         public string Genre { get; set; }
 
         [Required]
-        [StringLength(30, ErrorMessage = "company cannot be longer than 30 characters.")]
+        [StringLength(30, ErrorMessage = "TrailerID cannot be longer than 30 characters.")]
         public string TrailerID { get; set; }
 
     }

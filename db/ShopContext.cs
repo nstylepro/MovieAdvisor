@@ -8,7 +8,6 @@ namespace MovieLand.db
 
     public class ShopContext : IdentityDbContext 
     {
-        // what is this?
         public ShopContext(DbContextOptions<ShopContext> options) : base(options)
         {
 
@@ -17,7 +16,6 @@ namespace MovieLand.db
         // db items
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Movie> Movies { get; set; }
-        public DbSet<Company> Companies { get; set; }
         public DbSet<Order> Orders { get; set; }
     }
 

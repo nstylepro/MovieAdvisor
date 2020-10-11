@@ -21,12 +21,12 @@ namespace MovieLand
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -40,17 +40,17 @@ namespace MovieLand
                 .AddEntityFrameworkStores<ShopContext>()
                 .AddDefaultTokenProviders();
 
-            // custome configure of password complexity
+
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequiredLength = 6;
-                options.Password.RequireNonAlphanumeric = false;                
+                options.Password.RequireNonAlphanumeric = false;
             });
-            
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -69,7 +69,7 @@ namespace MovieLand
 
                 if (ctx.Response.StatusCode == 404 && !ctx.Response.HasStarted)
                 {
-                    //Re-execute the request so the user gets the error page
+
                     string originalPath = ctx.Request.Path.Value;
                     ctx.Items["originalPath"] = originalPath;
                     ctx.Request.Path = "/error/404";
@@ -79,7 +79,7 @@ namespace MovieLand
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseAuthentication();          
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>

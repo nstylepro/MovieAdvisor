@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 <head>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />   
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <h2>Movies</h2>
 
@@ -19,26 +19,28 @@
 
 <div class="form-actions no-color">
     <p>
+
+        <!--search by-->
         Price:
-        <!--search by price: populating the drop down list dynamicaly-->
+
         @Html.DropDownList("priceSearch", new SelectList(ViewBag.priceCategory, "Price"), "Any", new { @class = "dropdown" })
 
         Genre:
-        <!--search by genre: populating the drop down list dynamicaly-->
+        
         @Html.DropDownList("genreSearch", new SelectList(ViewBag.genres, "Genre"), "Any", new { @class = "dropdown" })
 
         Director:
-        <!--search by director: populating the drop down list dynamicaly-->
+        
         @Html.DropDownList("directorSearch", new SelectList(ViewBag.directors, "Director"), "Any", new { @class = "dropdown" })
 
         Year:
-        <!--search by year: populating the drop down list dynamicaly-->
+        
         @Html.DropDownList("yearSearch", new SelectList(ViewBag.yearCategory, "Year"), "Any", new { @class = "dropdown" })
 
         IMDB Rating:
         @Html.DropDownList("ratingSearch", new SelectList(ViewBag.ratings, "IMDB Rating"), "Any", new { @class = "dropdown" })
 
-        <!--search by year: populating the drop down list dynamicaly-->
+        
         |
         <a asp-action="Index">Back to Full List</a>
 
@@ -75,41 +77,41 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MovieID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MovieName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Director)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rating)
-            </td>
-            <td>
-                <a asp-action="Buy" asp-route-id="@item.MovieID">Buy</a> |
-                <a asp-action="Details" asp-route-id="@item.MovieID">Details</a>
-                @if (User.IsInRole("Administrator"))
-                {
-                    <i> | </i>
-                    <a asp-action="Edit" asp-route-id="@item.MovieID">Edit</a>
-                    <i> | </i>
-                    <a asp-action="Delete" asp-route-id="@item.MovieID">Delete</a>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Director)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    <a asp-action="Buy" asp-route-id="@item.MovieID">Buy</a> |
+                    <a asp-action="Details" asp-route-id="@item.MovieID">Details</a>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <i> | </i>
+                        <a asp-action="Edit" asp-route-id="@item.MovieID">Edit</a>
+                        <i> | </i>
+                        <a asp-action="Delete" asp-route-id="@item.MovieID">Delete</a>
 
-                }
-            </td>
-        </tr>
+                    }
+                </td>
+            </tr>
         }
     </tbody>
 </table>
@@ -121,16 +123,15 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script>
         $("select.dropdown").change(function(){
-
-            var priceOption = $('#priceSearch').find(":selected").text(); //this is the selcted price drop dwon value
-            var genreOption = $('#genreSearch').find(":selected").text(); //this is the selected genre drop down value
-            var directorOption = $('#directorSearch').find(":selected").text(); //this is the selected company dwon value
-            var yearOption = $('#yearSearch').find(":selected").text(); //this is the selected company dwon value
-            var ratingOption = $('#ratingSearch').find(":selected").text(); //this is the selected company dwon value
-
+            // Select values
+            var priceOption = $('#priceSearch').find(":selected").text();
+            var genreOption = $('#genreSearch').find(":selected").text();
+            var directorOption = $('#directorSearch').find(":selected").text();
+            var yearOption = $('#yearSearch').find(":selected").text();
+            var ratingOption = $('#ratingSearch').find(":selected").text();
             $.ajax({
-                url: "Movie/search", // use the result function which return a list of objects from query result in controller
-                type: "get", //send it through get method
+                url: "Movie/search",
+                type: "get",
                 data: {
                     priceSearch: priceOption,
                     genreSearch: genreOption,
@@ -140,14 +141,14 @@
                 },
                 success: function (response) {
                     var result = '';
-                    // checks if user is admin for later displays
+
                     var isAdmin = '@User.IsInRole("Administrator")';
-                    // if the reponse is empty display an empty table (in case no movies match the filter)
+
                     if (response == '') {
                         result = " "
                         $('tbody').html(result);
                     }
-                    // table body
+
                     $.each(response, function (key, value) {
                         result +=
                             '<tr>' +
@@ -158,7 +159,6 @@
                             '<td>' + value.genre + '</td>' +
                             '<td>' + value.year + '</td>' +
                             '<td>' + value.rating + '</td>' +
-
                             '<td>' +
                             '<a href="/Movie/Buy/' + value.movieID + '">Buy</a> | ' +
                             '<a href="/Movie/Details/' + value.movieID + '">Details</a>'
@@ -167,12 +167,10 @@
                             result +=
                                 ' | <a href="/Movie/Edit/' + value.movieID + '">Edit</a> | ' +
                                 '<a href="/Movie/Delete/' + value.movieID + '">Delete</a>'
-
                         }
                         result +=
                             '</td>' +
                             '</tr>'
-
                         $('tbody').html(result);
                     });
                 },
@@ -181,6 +179,5 @@
                 }
             });
         });
-
     </script>
 }

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details For User";
 }
 <head>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />   
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <h2>My User</h2>
 
@@ -18,11 +18,11 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
-            </th>         
+            </th>
             <th></th>
         </tr>
     </thead>
-    <tbody>      
+    <tbody>
         <tr>
             <td>
                 @Html.DisplayFor(model => model.UserName)
@@ -30,22 +30,17 @@
             <td>
                 @Html.DisplayFor(model => model.Email)
             </td>
-                @if (User.Identity.Name != "admin")
-                {
-                    // ^^^^^^^ cannot delete default admin to not lose control over the website
-                    <a asp-action="Delete" asp-route-id="@User.Identity.Name">Delete</a>
-                }
-                |
-                <a asp-action="Edit" asp-route-id="@User.Identity.Name">Edit</a> 
-                |
-                <a asp-action="ChangePassword" asp-route-id="@User.Identity.Name">Change Password</a>
+            @if (User.Identity.Name != "admin")
+            {
+                // Not possible to delete the admin account
+                <a asp-action="Delete" asp-route-id="@User.Identity.Name">Delete</a>
+            }
+            |
+            <a asp-action="Edit" asp-route-id="@User.Identity.Name">Edit</a>
+            |
+            <a asp-action="ChangePassword" asp-route-id="@User.Identity.Name">Change Password</a>
             </td>
         </tr>
-        
+
     </tbody>
 </table>
-
-@section Scripts
-{
-
-}

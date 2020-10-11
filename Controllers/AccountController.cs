@@ -214,7 +214,6 @@ namespace MovieLand.Controllers
             {
                 // delete all the specific user's data (customer page + orders)           
                 _context.Orders.RemoveRange(_context.Orders.Where(o => o.CustomerUsername == username));
-                //await _context.SaveChangesAsync();
                 _context.Customers.Remove(customer);
                 await _context.SaveChangesAsync();
             }
@@ -265,7 +264,7 @@ namespace MovieLand.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(string id)
         {
-            // to perevent editing a user that is not your own unless you are an admin
+            // to prevent editing a user that is not your own unless you are an admin
             if ((!User.IsInRole("Administrator")) && (User.Identity.Name != id))
             {
                 return NotFound();
@@ -291,7 +290,7 @@ namespace MovieLand.Controllers
         public async Task<IActionResult> Edit(string username, string email)
         {
             var user = await userManager.FindByNameAsync(username);
-            // to perevent editing a user that is not your own unless you are an admin
+            // to prevent editing a user that is not your own unless you are an admin
             if ((!User.IsInRole("Administrator")) && (User.Identity.Name != user.UserName))
             {
                 return NotFound();
@@ -310,7 +309,7 @@ namespace MovieLand.Controllers
                         ViewBag.Error5 = "not email format";
                         return View();
                     }
-                    // Persiste the changes
+                    // Persist the changes
                     await userManager.UpdateAsync(user);
 
                 }
@@ -325,13 +324,13 @@ namespace MovieLand.Controllers
                         throw;
                     }
                 }
-                // if its an admin editting soemone else, redirect him back
+                // if its an admin editing someone else, redirect him back
                 if (User.IsInRole("Administrator"))
                 {
                     return RedirectToAction("List");
                 }
             }
-            // if its a user editting himself redirect him to his details page
+            // if its a user editing himself redirect him to his details page
             return RedirectToAction("DetailsForUser");
         }
 
@@ -345,7 +344,7 @@ namespace MovieLand.Controllers
         [Authorize]
         public async Task<IActionResult> ChangePassword(string id)
         {
-            // to perevent editing a user that is not your own unless you are an admin
+            // to prevent editing a user that is not your own unless you are an admin
             if ((!User.IsInRole("Administrator")) && (User.Identity.Name != id))
             {
                 return NotFound();
@@ -378,7 +377,7 @@ namespace MovieLand.Controllers
         public async Task<IActionResult> ChangePassword(string username, string password)
         {
             var user = await userManager.FindByNameAsync(username);
-            // to perevent editing a user that is not your own unless you are an admin
+            // to prevent editing a user that is not your own unless you are an admin
             if ((!User.IsInRole("Administrator")) && (User.Identity.Name != user.UserName))
             {
                 return NotFound();
@@ -396,13 +395,13 @@ namespace MovieLand.Controllers
                
             }
                  
-            // if its an admin editting soemone else, redirect him back
+            // if its an admin editing someone else, redirect him back
             if (User.IsInRole("Administrator") && (User.Identity.Name != user.UserName))
             {
                 return RedirectToAction("List");
             }
 
-            // if the logged in user resetes his password log him out           
+            // if the logged in user resets his password log him out           
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }

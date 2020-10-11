@@ -38,12 +38,6 @@ namespace MovieLand.Controllers
             var countries = _context.Customers.Select(c => c.Country).Distinct().ToList();
             ViewBag.countries = countries;
 
-            // search based on country
-            //if (countrySearch != null)
-            //{
-            //customers = customers.Where(c => c.Country == countrySearch);
-            //}
-
             return View(await customers.ToListAsync());
         }
 
@@ -176,7 +170,7 @@ namespace MovieLand.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-            // after the user deleted his custoemr page 
+            // after the user deleted his customer page 
             return RedirectToAction("Index", "Home");
         }
 
@@ -185,7 +179,7 @@ namespace MovieLand.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(string id)
         {
-            // to perevent editing a user that is not your own unless you are an admin
+            // to prevent editing a user that is not your own unless you are an admin
             if ((!User.IsInRole("Administrator")) && (User.Identity.Name != id))
             {
                 return NotFound();
@@ -210,7 +204,7 @@ namespace MovieLand.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(string username, [Bind("Username,FirstName,LastName,Country,City,Street,Age,Gender")] Customer customer)
         {
-            // to perevent editing a user that is not your own unless you are an admin
+            // to prevent editing a user that is not your own unless you are an admin
             if ((!User.IsInRole("Administrator")) && (User.Identity.Name != username))
             {
                 return NotFound();
@@ -239,13 +233,13 @@ namespace MovieLand.Controllers
                         throw;
                     }
                 }
-                // if its an admin editting soemone else, redirect him back
+                // if its an admin editing someone else, redirect him back
                 if (User.IsInRole("Administrator"))
                 {
                     return RedirectToAction("Index");
                 }
             }
-            // if its a user edditing himself redirect him to his details page
+            // if its a user editing himself redirect him to his details page
             return RedirectToAction("DetailsForUser");
         }
         private bool CustomerExists(string username)

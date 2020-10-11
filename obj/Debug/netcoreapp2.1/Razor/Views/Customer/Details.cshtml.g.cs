@@ -69,12 +69,12 @@ using Microsoft.AspNetCore.Identity;
 #line default
 #line hidden
             BeginContext(79, 99, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "20be7527e3da40e48d9bad181ace1fab", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2b554834575c42bf82033c1c7d7b4e40", async() => {
                 BeginContext(85, 6, true);
                 WriteLiteral("\r\n    ");
                 EndContext();
                 BeginContext(91, 75, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "3312c99f24c0477aa4ad852fe8b7ea03", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "3bd5a855d7e740528d6eb58e9a5fe0f5", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -315,7 +315,7 @@ using Microsoft.AspNetCore.Identity;
             WriteLiteral("        </table>\r\n    </dd>\r\n</div>\r\n<div>\r\n    ");
             EndContext();
             BeginContext(2287, 38, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "22856df062a64cfebe1969412118b34f", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9cdcf57facf149eb84a9f8e9f9c6d10c", async() => {
                 BeginContext(2309, 12, true);
                 WriteLiteral("Back to List");
                 EndContext();

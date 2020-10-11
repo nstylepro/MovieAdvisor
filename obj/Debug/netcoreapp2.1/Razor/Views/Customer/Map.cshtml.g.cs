@@ -65,12 +65,12 @@ using Microsoft.AspNetCore.Identity;
 #line default
 #line hidden
             BeginContext(39, 96, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3a1dbe2824354040a79e28533f61f8d2", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7ebb6c8832514b04a15b94f9d203e2c0", async() => {
                 BeginContext(45, 6, true);
                 WriteLiteral("\r\n    ");
                 EndContext();
                 BeginContext(51, 75, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "2e6f8ab9522c46969a35ecbf426763f3", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "fa3542104d834901a571b35841ac0cd2", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -104,7 +104,7 @@ using Microsoft.AspNetCore.Identity;
             WriteLiteral("\r\n<h2>Map</h2>\r\n<!DOCTYPE html>\r\n<html>\r\n");
             EndContext();
             BeginContext(176, 1554, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9de8bd9f77d948bb83887494150768bc", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a29ef1e616b64bbc8b1512e4f48acc23", async() => {
                 BeginContext(182, 348, true);
                 WriteLiteral(@"
     <title></title>
@@ -173,7 +173,7 @@ using Microsoft.AspNetCore.Identity;
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(1732, 95, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "24884c711f3742139a0703a2cca01bb3", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a4c8ce7644d74381a724c1caf3d9889d", async() => {
                 BeginContext(1738, 82, true);
                 WriteLiteral("\r\n    <div id=\"myMap\" style=\"position:relative;width:810px;height:610px;\"></div>\r\n");
                 EndContext();

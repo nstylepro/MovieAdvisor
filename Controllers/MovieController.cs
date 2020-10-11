@@ -31,7 +31,7 @@ namespace MovieLand.Controllers
             // all Movies
             var movies = from movie in _context.Movies
                         select movie;
-            // this parameter is used as a string of movie ids passed only from the recomendations view,
+            // this parameter is used as a string of movie ids passed only from the recommendations view,
             // this is used to avoid calculating recommended Movies each time the user searches Movies in his recommendations view
             if (recMoviesIds != null)
             {
@@ -76,7 +76,7 @@ namespace MovieLand.Controllers
                 }
             }
 
-            // search based on price
+            // search based on rating
             if (ratingSearch != null)
             {
                 switch (ratingSearch)
@@ -115,8 +115,6 @@ namespace MovieLand.Controllers
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            //ViewData["CurrentFilter"] = priceSearch;
-
             // query Movies 
             var Movies = from movie in _context.Movies
                            select movie;
@@ -146,7 +144,7 @@ namespace MovieLand.Controllers
             }
             ViewBag.genres = singleGenres;
 
-            // query companies
+            // query Director
             var directors = _context.Movies.Select(movie => movie.Director).Distinct().ToList();
             ViewBag.directors = directors;
  
@@ -242,7 +240,7 @@ namespace MovieLand.Controllers
             _context.Orders.RemoveRange(_context.Orders.Where(order => order.MovieID == id));
             // _context.SaveChangesAsync();
 
-            // delete the customer
+            // delete the Movie
             _context.Movies.Remove(Movie);
             await _context.SaveChangesAsync();
 
@@ -403,7 +401,7 @@ namespace MovieLand.Controllers
                 }
             }
 
-            // default price (its 50.00 and later the cents are deleted)
+            // default price
             return (0);
         }
     }

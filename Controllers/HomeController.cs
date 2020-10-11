@@ -15,10 +15,6 @@ namespace MovieLand.Controllers
 
     public class HomeController : Controller
     {
-
-        // this was used originaly to manualy create a twitter access token, then manualy get the twitts from twitter api
-        // this + and the commented out index task work to fetch tweets manualy but later i found a better way to display an interactive twitter timeline
-        // i saved the code in case somthing goes wrong with the other way and to show the work iv put into this 
         public async Task<string> GetAccessToken()
         {
             var httpClient = new HttpClient();
@@ -36,53 +32,14 @@ namespace MovieLand.Controllers
             dynamic item = JsonConvert.DeserializeObject<object>(json);
             return item["access_token"];
         }
-
-        // this is commented out but was the former home page with manauly tweet fetching like i explained before
-        //IEnumerable<string>
-        public async Task<IActionResult> Index(string userName = "steam_Movies", int count = 10, string accessToken = "AAAAAAAAAAAAAAAAAAAAAFXzAwAAAAAAMHCxpeSDG1gLNLghVe8d74hl6k4%3DRUMF4xAQLsbeBhTSRrCiQpJtxoGWeyHrDb5te2jpGskWDFW82F")
-        {
-            if (accessToken == null)
-            {
-                accessToken = await GetAccessToken();
-            }
-
-            var requestUserTimeline = new HttpRequestMessage(HttpMethod.Get,
-                string.Format("https://api.twitter.com/1.1/statuses/user_timeline.json?count={0}&screen_name={1}&trim_user=1&exclude_replies=1", count, userName));
-
-            requestUserTimeline.Headers.Add("Authorization", "Bearer " + accessToken);
-            var httpClient = new HttpClient();
-            HttpResponseMessage responseUserTimeLine = await httpClient.SendAsync(requestUserTimeline);
-            dynamic json = JsonConvert.DeserializeObject<object>(await responseUserTimeLine.Content.ReadAsStringAsync());
-            var enumerableTweets = (json as IEnumerable<dynamic>);
-
-            if (enumerableTweets == null)
-            {
-                return View();
-            }
-            var tweets = enumerableTweets.ToList();//Select(t => (string)(t["text"].ToString()));
-            return View(tweets);
-        }
-
-        /*
+        
         public IActionResult Index()
         {
-
-            //var tweets = GetTweets();
             return View();
         }
-        */
+        
         public IActionResult Sales()
         {
-
-            //var tweets = GetTweets();
-            return View();
-        }
-
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
